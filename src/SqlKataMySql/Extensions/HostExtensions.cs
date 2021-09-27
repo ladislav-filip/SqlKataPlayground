@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SqlKataMySql.Persistence;
+using SqlKataMySql.Samples;
 
 namespace SqlKataMySql.Extensions
 {
@@ -19,30 +20,25 @@ namespace SqlKataMySql.Extensions
     {
         public static async Task<IHost> RunConsoleAsync(this IHost host)
         {
+            await Task.CompletedTask;
             using var scope = host.Services.CreateScope();
 
             var conf = scope.ServiceProvider.GetRequiredService<IConfiguration>();
 
             var seeder = scope.ServiceProvider.GetRequiredService<Seeder>();
-            await seeder.SeedAsync();
+            //await seeder.SeedAsync();
+
+            var qb = scope.ServiceProvider.GetRequiredService<QueryBuildAddresses>();
+            qb.LimitFive();
+            qb.LimitFiveByCity("Praha");
+            qb.LimitFiveByCityContains("os");
+            qb.LimitFiveByNumber(50);
             
             // var executor = scope.ServiceProvider.GetRequiredService<SampleExecutor>();
             // executor.Run();
 
             Console.WriteLine("Console run...");
-            Console.WriteLine("Press Enter...");
-            var input = Console.ReadLine();
-
-            if (input == "stop")
-            {
-                Console.WriteLine("Stopped");
-                Environment.ExitCode = 5000;
-                return host;
-            }
-
-
-            Console.WriteLine("Continue...");
-
+            
             // zatím web nebudu zkoušet...
             // host.Run();
 

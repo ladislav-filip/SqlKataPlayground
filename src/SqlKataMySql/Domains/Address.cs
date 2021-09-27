@@ -4,8 +4,11 @@
 // Created:     27.09.2021
 #endregion
 
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace SqlKataMySql.Domains
 {
+    [Table("Addresses")]
     public class Address
     {
         public int AddressId { get; set; }
@@ -16,6 +19,6 @@ namespace SqlKataMySql.Domains
 
         public string Zip { get; set; }
 
-        public int Type { get; set; }
+        public int Number { get; set; }
     }
 }

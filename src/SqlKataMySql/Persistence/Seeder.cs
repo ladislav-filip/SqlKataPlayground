@@ -4,6 +4,7 @@
 // Created:     27.09.2021
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
@@ -27,6 +28,8 @@ namespace SqlKataMySql.Persistence
             await _dbContext.Database.EnsureDeletedAsync();
             await _dbContext.Database.EnsureCreatedAsync();
             await SeedAddressesAsync();
+            Console.WriteLine();
+            Console.WriteLine();
         }
 
         private async Task SeedAddressesAsync()
@@ -34,12 +37,13 @@ namespace SqlKataMySql.Persistence
             const string filePath = "./Persistence/SeederData/Addresses.json";
             var json = await File.ReadAllTextAsync(filePath);
             dynamic data = Newtonsoft.Json.JsonConvert.DeserializeObject<ExpandoObject>(json, new ExpandoObjectConverter());
+            var rnd = new Random();
 
             if (data != null)
             {
                 foreach (var addr in (IEnumerable<dynamic>)data.Addresses)
                 {
-                    var ent = new Address { City = addr.OBEC, Street = addr.ULICE, Zip = addr.PSC };
+                    var ent = new Address { City = addr.OBEC, Street = addr.ULICE, Zip = addr.PSC, Number = rnd.Next(1, 200)};
                     _dbContext.Addresses.Add(ent);
                 }
 
