@@ -10,6 +10,7 @@ using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SqlKataFirebird.Samples;
 
 namespace SqlKataFirebird.Extensions
 {
@@ -21,6 +22,8 @@ namespace SqlKataFirebird.Extensions
 
             var conf = scope.ServiceProvider.GetRequiredService<IConfiguration>();
 
+            var executor = scope.ServiceProvider.GetRequiredService<SampleExecutor>();
+            executor.Run();
 
             Console.WriteLine("Console run...");
             Console.WriteLine("Press Enter...");
