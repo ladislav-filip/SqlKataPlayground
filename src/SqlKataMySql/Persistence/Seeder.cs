@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Converters;
 using SqlKataMySql.Domains;
@@ -32,18 +33,52 @@ namespace SqlKataMySql.Persistence
             Console.WriteLine();
         }
 
+        private IEnumerable<CityType> CreateCityTypes()
+        {
+            var data = new CityType[]
+            {
+                new() { Name = "MegaCity", CitiziensCount = 10000000 },
+                new() { Name = "BigCity", CitiziensCount = 1000000 },
+                new() { Name = "City", CitiziensCount = 500000 },
+                new() { Name = "Town", CitiziensCount = 20000 },
+                new() { Name = "Village", CitiziensCount = 5000 }
+            };
+    
+            return data;
+        }
+
+        private IEnumerable<User> CreateUsers()
+        {
+            var data = new User[]
+            {
+                new() { Name = "Daniel", Surname = "Filip" },
+                new() { Name = "Petra", Surname = "Zlamana" },
+                new() { Name = "Josef", Surname = "Novak" },
+            };
+            return data;
+        }
+
         private async Task SeedAddressesAsync()
         {
+            var cityTypes = CreateCityTypes().ToArray();
+            var users = CreateUsers().ToArray();
+            
             const string filePath = "./Persistence/SeederData/Addresses.json";
             var json = await File.ReadAllTextAsync(filePath);
             dynamic data = Newtonsoft.Json.JsonConvert.DeserializeObject<ExpandoObject>(json, new ExpandoObjectConverter());
             var rnd = new Random();
+            var rndCityTypes = new Random(DateTime.Now.Millisecond);
+            var rndUsers = new Random(DateTime.Now.Millisecond);
 
             if (data != null)
             {
                 foreach (var addr in (IEnumerable<dynamic>)data.Addresses)
                 {
-                    var ent = new Address { City = addr.OBEC, Street = addr.ULICE, Zip = addr.PSC, Number = rnd.Next(1, 200)};
+                    var ent = new Address { City = addr.OBEC, Street = addr.ULICE, Zip = addr.PSC, 
+                        Number = rnd.Next(1, 200),
+                        CityType = cityTypes[rndCityTypes.Next(0, cityTypes.Length)],
+                        CreateByUser = users[rndUsers.Next(0, users.Length)]
+                    };
                     _dbContext.Addresses.Add(ent);
                 }
 

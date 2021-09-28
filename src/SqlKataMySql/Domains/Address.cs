@@ -20,5 +20,13 @@ namespace SqlKataMySql.Domains
         public string Zip { get; set; }
 
         public int Number { get; set; }
+
+        public int CityTypeId { get; set; }
+
+        public CityType CityType { get; set; }
+
+        public int CreateByUserId { get; set; }
+
+        public User CreateByUser { get; set; }
     }
 }

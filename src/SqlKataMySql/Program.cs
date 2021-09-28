@@ -36,7 +36,7 @@ namespace SqlKataMySql
         
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = "server=localhost;port=3307;user=root;password=tukan;database=kata";
+            const string connectionString = "server=localhost;port=3307;user=root;password=tukan;database=kata";
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 25));
             
             services.AddDbContext<KataDbContext>(
@@ -53,10 +53,10 @@ namespace SqlKataMySql
             });
             services.AddTransient<ICustomQueryFactory, CustomQueryFactory>();
             services.AddTransient<Seeder>();
-            services.AddTransient<QueryBuildAddresses>();
 
-            // services.AddSingleton<IConnectionFactory, ConnectionFactory>();
-            // services.AddSingleton<SampleExecutor>();
+            services.Scan(scan => scan.FromAssemblyOf<Program>()
+                .AddClasses(classes => classes.InNamespaceOf<QueryBuildBase>())
+                );
         }
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

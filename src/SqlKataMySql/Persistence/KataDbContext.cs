@@ -24,5 +24,9 @@ namespace SqlKataMySql.Persistence
         }
 
         public DbSet<Address> Addresses { get; set; }
+
+        public DbSet<CityType> CityTypes { get; set; }
+
+        public DbSet<User> Users { get; set; }
     }
 }

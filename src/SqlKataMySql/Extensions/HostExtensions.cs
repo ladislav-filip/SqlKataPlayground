@@ -8,7 +8,6 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SqlKataMySql.Persistence;
@@ -23,26 +22,34 @@ namespace SqlKataMySql.Extensions
             await Task.CompletedTask;
             using var scope = host.Services.CreateScope();
 
-            var conf = scope.ServiceProvider.GetRequiredService<IConfiguration>();
-
             var seeder = scope.ServiceProvider.GetRequiredService<Seeder>();
             //await seeder.SeedAsync();
 
+            SimpleAddressesRun(scope);
+            SimpleAddressesWithIncludeRun(scope);
+
+
+            Console.WriteLine("Console run...");
+
+            return host;
+        }
+        
+        private static void SimpleAddressesRun(IServiceScope scope)
+        {
             var qb = scope.ServiceProvider.GetRequiredService<QueryBuildAddresses>();
             qb.LimitFive();
             qb.LimitFiveByCity("Praha");
             qb.LimitFiveByCityContains("os");
             qb.LimitFiveByNumber(50);
-            
-            // var executor = scope.ServiceProvider.GetRequiredService<SampleExecutor>();
-            // executor.Run();
+        }
 
-            Console.WriteLine("Console run...");
-            
-            // zatím web nebudu zkoušet...
-            // host.Run();
-
-            return host;
+        private static void SimpleAddressesWithIncludeRun(IServiceScope scope)
+        {
+            var qb = scope.ServiceProvider.GetRequiredService<QueryBuildAddressesWithCityType>();
+            qb.LimitFivePluralize();
+            qb.LimitFive();
+            qb.LimitFiveForJosef();
+            qb.LimitFiveForJosefPluralize();
         }
     }
 }

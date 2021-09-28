@@ -1,10 +1,4 @@
-﻿#region Info
-// FileName:    QueryBuildExample.cs
-// Author:      Ladislav Filip
-// Created:     27.09.2021
-#endregion
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using SqlKata.Execution;
 using SqlKataMySql.Domains;
@@ -12,20 +6,17 @@ using SqlKataMySql.Persistence;
 
 namespace SqlKataMySql.Samples
 {
-    public class QueryBuildAddresses
+    public class QueryBuildAddresses : QueryBuildBase
     {
-        private readonly ICustomQueryFactory _customQueryFactory;
-
-        public QueryBuildAddresses(ICustomQueryFactory customQueryFactory)
+        public QueryBuildAddresses(ICustomQueryFactory customQueryFactory) : base(customQueryFactory)
         {
-            _customQueryFactory = customQueryFactory;
         }
         
         public void LimitFive()
         {
             var qf = _customQueryFactory.Query();
             var data = qf.Query("Addresses").Limit(5).OrderBy(nameof(Address.City)).Get<Address>();
-            PrintAddresses(data);
+            Print(data);
         }
 
         public void LimitFiveByCity(string searchCity)
@@ -35,7 +26,7 @@ namespace SqlKataMySql.Samples
                 .Where(nameof(Address.City), searchCity)
                 .Limit(5)
                 .OrderBy(nameof(Address.City)).Get<Address>();
-            PrintAddresses(data);
+            Print(data);
         }
         
         public void LimitFiveByCityContains(string searchCity)
@@ -45,7 +36,7 @@ namespace SqlKataMySql.Samples
                 .WhereContains(nameof(Address.City), searchCity)
                 .Limit(5)
                 .OrderBy(nameof(Address.City)).Get<Address>();
-            PrintAddresses(data);
+            Print(data);
         }
         
         public void LimitFiveByNumber(int numberGreater)
@@ -55,16 +46,7 @@ namespace SqlKataMySql.Samples
                 .Where(nameof(Address.Number), ">", numberGreater)
                 .Limit(5)
                 .OrderBy(nameof(Address.City)).Get<Address>();
-            PrintAddresses(data);
-        }
-        
-        private static void PrintAddresses(IEnumerable<Address> data)
-        {
-            foreach (var d in data)
-            {
-                Console.WriteLine($"{d.Street}, {d.City} {d.Zip}, Number = {d.Number}");
-            }
-            Console.WriteLine();
+            Print(data);
         }
     }
 }
