@@ -6,6 +6,7 @@
 
 using System;
 using System.Data.Common;
+using System.Diagnostics;
 using SqlKata.Compilers;
 using SqlKata.Execution;
 
@@ -18,12 +19,18 @@ namespace SqlKataMySql.Persistence
         public CustomQueryFactory(DbConnection connection)
         {
             _queryFactory = new QueryFactory(connection, new MySqlCompiler());
-            _queryFactory.Logger = compiled => { Console.WriteLine(compiled.ToString()); };
+            EnableLog();
         }
         
         public QueryFactory Query()
         {
             return _queryFactory;
+        }
+
+        [Conditional("DEBUG")]
+        private void EnableLog()
+        {
+            _queryFactory.Logger = compiled => { Console.WriteLine(compiled.ToString()); };
         }
     }
 }

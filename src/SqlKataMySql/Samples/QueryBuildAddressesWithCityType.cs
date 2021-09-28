@@ -80,5 +80,20 @@ namespace SqlKataMySql.Samples
 
             Print(data);
         }
+        
+        public void GetJoined()
+        {
+            var qf = _customQueryFactory.Query();
+            var data = qf.QueryBy<Address>()
+                .SelectBy<AddressModel>()
+                .JoinBy<CityType, Address>()
+                .JoinBy<User, Address>(nameof(Address.CreateByUserId))
+                .OrderBy(nameof(Address.City))
+                .Get<AddressModel>()
+                .ToArray();
+                
+            
+            Print(data);
+        }
     }
 }

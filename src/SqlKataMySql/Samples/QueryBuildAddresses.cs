@@ -29,12 +29,11 @@ namespace SqlKataMySql.Samples
             Print(data);
         }
         
-        public void LimitFiveByCityContains(string searchCity)
+        public void ByCityContains(string searchCity)
         {
             var qf = _customQueryFactory.Query();
             var data = qf.Query("Addresses")
                 .WhereContains(nameof(Address.City), searchCity)
-                .Limit(5)
                 .OrderBy(nameof(Address.City)).Get<Address>();
             Print(data);
         }

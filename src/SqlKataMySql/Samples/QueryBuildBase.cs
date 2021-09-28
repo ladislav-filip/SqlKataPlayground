@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using SqlKataMySql.Persistence;
 
 namespace SqlKataMySql.Samples
@@ -19,6 +20,7 @@ namespace SqlKataMySql.Samples
             _customQueryFactory = customQueryFactory;
         }
         
+        [Conditional("DEBUG")]
         protected void Print(IEnumerable<object> data)
         {
             foreach (var d in data)

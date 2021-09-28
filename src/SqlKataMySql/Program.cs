@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Common;
 using System.Threading.Tasks;
+using BenchmarkDotNet.Running;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MySqlConnector;
 using SqlKataMySql.Extensions;
+using SqlKataMySql.Infrastructure;
 using SqlKataMySql.Persistence;
 using SqlKataMySql.Samples;
 
@@ -16,6 +18,8 @@ namespace SqlKataMySql
 {
     class Program
     {
+        public const string ConnectionString = "server=localhost;port=3307;user=root;password=tukan;database=kata";
+        
         public Program(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -23,8 +27,13 @@ namespace SqlKataMySql
 
         static async Task Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();
-            await host.RunConsoleAsync();
+            await Task.CompletedTask;
+            
+            var summary = BenchmarkRunner.Run<Benchmarks>();
+            
+            // var host = CreateHostBuilder(args).Build();
+            // await host.RunConsoleAsync();
+            
             Console.WriteLine("Finnish.");
         }
         
@@ -36,19 +45,18 @@ namespace SqlKataMySql
         
         public void ConfigureServices(IServiceCollection services)
         {
-            const string connectionString = "server=localhost;port=3307;user=root;password=tukan;database=kata";
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 25));
             
             services.AddDbContext<KataDbContext>(
                 dbContextOptions => dbContextOptions
-                    .UseMySql(connectionString, serverVersion)
+                    .UseMySql(ConnectionString, serverVersion)
                     .EnableSensitiveDataLogging() // <-- These two calls are optional but help
                     .EnableDetailedErrors()       // <-- with debugging (remove for production).
             );
 
             services.AddTransient<DbConnection>((serviceProvider) =>
             {
-                var connection = new MySqlConnection(connectionString);
+                var connection = new MySqlConnection(ConnectionString);
                 return connection;
             });
             services.AddTransient<ICustomQueryFactory, CustomQueryFactory>();

@@ -23,11 +23,10 @@ namespace SqlKataMySql.Extensions
             using var scope = host.Services.CreateScope();
 
             var seeder = scope.ServiceProvider.GetRequiredService<Seeder>();
-            //await seeder.SeedAsync();
+            await seeder.SeedAsync();
 
-            SimpleAddressesRun(scope);
-            SimpleAddressesWithIncludeRun(scope);
-
+            //SimpleAddressesRun(scope);
+            //SimpleAddressesWithIncludeRun(scope);
 
             Console.WriteLine("Console run...");
 
@@ -39,7 +38,7 @@ namespace SqlKataMySql.Extensions
             var qb = scope.ServiceProvider.GetRequiredService<QueryBuildAddresses>();
             qb.LimitFive();
             qb.LimitFiveByCity("Praha");
-            qb.LimitFiveByCityContains("os");
+            qb.ByCityContains("os");
             qb.LimitFiveByNumber(50);
         }
 

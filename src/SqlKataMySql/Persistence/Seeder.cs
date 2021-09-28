@@ -28,7 +28,15 @@ namespace SqlKataMySql.Persistence
         {
             await _dbContext.Database.EnsureDeletedAsync();
             await _dbContext.Database.EnsureCreatedAsync();
+            
+            // naplnímě větším množstvím dat
             await SeedAddressesAsync();
+            await SeedAddressesAsync();
+            await SeedAddressesAsync();
+            await SeedAddressesAsync();
+            await SeedAddressesAsync();
+            await SeedAddressesAsync();
+            
             Console.WriteLine();
             Console.WriteLine();
         }
