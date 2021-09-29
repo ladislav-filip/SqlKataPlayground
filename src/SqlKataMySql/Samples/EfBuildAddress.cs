@@ -21,12 +21,12 @@ namespace SqlKataMySql.Samples
 
         public void ByCityContains(string searchCity)
         {
-            var data = _dbContext.Addresses.Where(p => p.City.Contains(searchCity)).AsNoTracking().ToArray();
+            var data = _dbContext.Addresses.Where(p => p.City.Contains(searchCity)).OrderBy(p => p.City).AsNoTracking().ToArray();
         }
 
         public void GetJoined()
         {
-            var data = _dbContext.Addresses.Include(i => i.CityType).Include(i => i.CreateByUser).AsNoTracking()
+            var data = _dbContext.Addresses.Include(i => i.CityType).Include(i => i.CreateByUser).OrderBy(p => p.City).AsNoTracking()
                 .ToArray();
         }
     }

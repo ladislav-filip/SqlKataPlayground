@@ -18,6 +18,7 @@ namespace SqlKataMySql.Infrastructure
         private QueryBuildAddresses _queryBuildAddresses;
         private EfBuildAddress _efBuildAddress;
         private QueryBuildAddressesWithCityType _queryBuildAddressesWithCityType;
+        private DapperBuildAddress _dapperBuildAddress;
 
         private const int MaxLoop = 30;
 
@@ -26,6 +27,8 @@ namespace SqlKataMySql.Infrastructure
             var connection = new MySqlConnection(Program.ConnectionString);
             _queryBuildAddresses = new QueryBuildAddresses(new CustomQueryFactory(connection));
             _queryBuildAddressesWithCityType = new QueryBuildAddressesWithCityType(new CustomQueryFactory(connection));
+
+            _dapperBuildAddress = new DapperBuildAddress(connection);
 
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 25));
             var optionsBuilder = new DbContextOptionsBuilder<KataDbContext>();
@@ -50,6 +53,12 @@ namespace SqlKataMySql.Infrastructure
         {
             for(var i=0; i<MaxLoop; i++) _efBuildAddress.ByCityContains("os");
         }
+        
+        [Benchmark]
+        public void DapperByCityContains()
+        {
+            for(var i=0; i<MaxLoop; i++) _dapperBuildAddress.ByCityContains("os");
+        }
 
         [Benchmark]
         public void GetJoined()
@@ -61,6 +70,12 @@ namespace SqlKataMySql.Infrastructure
         public void EfGetJoined()
         {
             for(var i=0; i<MaxLoop; i++) _efBuildAddress.GetJoined();
+        }
+        
+        [Benchmark]
+        public void DapperGetJoined()
+        {
+            for(var i=0; i<MaxLoop; i++) _dapperBuildAddress.GetJoined();
         }
     }
 }

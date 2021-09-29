@@ -29,10 +29,14 @@ namespace SqlKataMySql
         {
             await Task.CompletedTask;
             
-            var summary = BenchmarkRunner.Run<Benchmarks>();
-            
-            // var host = CreateHostBuilder(args).Build();
-            // await host.RunConsoleAsync();
+#if DEBUG
+            // Samples
+            var host = CreateHostBuilder(args).Build();
+            await host.RunConsoleAsync();
+#else
+            // Benchmark
+            var summary = BenchmarkRunner.Run<Benchmarks>();            
+#endif
             
             Console.WriteLine("Finnish.");
         }

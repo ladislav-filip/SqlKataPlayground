@@ -23,14 +23,21 @@ namespace SqlKataMySql.Extensions
             using var scope = host.Services.CreateScope();
 
             var seeder = scope.ServiceProvider.GetRequiredService<Seeder>();
-            await seeder.SeedAsync();
+            //await seeder.SeedAsync();
 
             //SimpleAddressesRun(scope);
             //SimpleAddressesWithIncludeRun(scope);
+            DapperSimpleRun(scope);
 
             Console.WriteLine("Console run...");
 
             return host;
+        }
+
+        private static void DapperSimpleRun(IServiceScope scope)
+        {
+            var qb = scope.ServiceProvider.GetRequiredService<DapperBuildAddress>();
+            qb.ByCityContains("os");
         }
         
         private static void SimpleAddressesRun(IServiceScope scope)
