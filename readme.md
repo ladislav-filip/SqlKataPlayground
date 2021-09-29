@@ -30,3 +30,9 @@ Inicializace projektu a jednoduché dotazy na tabulkou adres.
 Pro spuštění benchmarku je potřeba být v módu RELEASE. Pro režim DEBUG jsou doplněny "conditional" s výstupem na obrazovku.
 
 Pří seedu je tentokrát naplněno více dat opakovaným spouštěním. Dále je vytvořen na databází pohled/view s názvem **AddressesView**.
+
+## Example 4
+* nasazení QueryFiltru s Fullsy Nuget balíčku, rozšíření DB o pole DateCreated v adresách
+* nový seed dat
+* ukázka funkčních QueryFiltrů v metodě **EfBuildAddress.GetByQuerySamplesFilter**
+* vložení nefunkčních/neimplementovaných QueryFiltrů **EfBuildAddress.GetByQuerySamplesFilter**
