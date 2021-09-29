@@ -8,6 +8,7 @@
     <ItemGroup>
       <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
       <PackageReference Include="Dapper" Version="2.0.90" />
+      <PackageReference Include="Fullsys.Pps.Utils.Infrastructure.EntityFramework" Version="2.1.0-beta" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
       <PackageReference Include="ObjectDumper.NET" Version="3.3.7" />
       <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="5.0.1" />

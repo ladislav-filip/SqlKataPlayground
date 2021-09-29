@@ -7,9 +7,11 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SqlKataMySql.Domains;
 using SqlKataMySql.Persistence;
 using SqlKataMySql.Samples;
 
@@ -39,7 +41,9 @@ namespace SqlKataMySql.Extensions
         {
             var qb = scope.ServiceProvider.GetRequiredService<EfBuildAddress>();
             // qb.ByCityContains("os");
-            qb.GetFromView();
+            // qb.GetFromView();
+            
+            qb.GetByQuerySamplesFilter();
         }
         
         private static void DapperSimpleRun(IServiceScope scope)
