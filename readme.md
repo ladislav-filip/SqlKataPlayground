@@ -19,3 +19,14 @@ Inicializace projektu a jednoduché dotazy na tabulkou adres.
 ## Example 2
 * ukázka provádění "join" tabulek
 * implementace extensions používající jmennou konvenci a pluralizaci
+
+## Example 3
+* porovnání různých technik pro SQL dotazy
+* doplněn Dapper
+* doplněn EF
+* doplněno ToView pro EF
+* doplněno testování výkonu pomocí BenchmarkDotNet
+
+Pro spuštění benchmarku je potřeba být v módu RELEASE. Pro režim DEBUG jsou doplněny "conditional" s výstupem na obrazovku.
+
+Pří seedu je tentokrát naplněno více dat opakovaným spouštěním. Dále je vytvořen na databází pohled/view s názvem **AddressesView**.
