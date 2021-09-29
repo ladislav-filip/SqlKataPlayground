@@ -4,6 +4,7 @@
 // Created:     27.09.2021
 #endregion
 
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SqlKataMySql.Domains
@@ -28,5 +29,7 @@ namespace SqlKataMySql.Domains
         public int CreateByUserId { get; set; }
 
         public User CreateByUser { get; set; }
+
+        public DateTime DateCreated { get; set; }
     }
 }

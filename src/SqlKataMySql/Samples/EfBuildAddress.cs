@@ -47,6 +47,8 @@ namespace SqlKataMySql.Samples
 
         public void GetByQuerySamplesFilter()
         {
+            // https://helpdesk.fullsys.cz/dokuwiki/skoda_vyvoj/ppsnet/programovani_postupy_a_rady/predavani_datoveho_filtru_v_url_query_stringu?s[]=url&s[]=filtr#operatory
+            
             GetByQueryFilter(CreateFilter("?limit=3&city=cont:os&sort=city"));
             GetByQueryFilter(CreateFilter("?limit=3&city=cont:os&sort=city&CitiziensCount=gt:10000"));
             GetByQueryFilter(CreateFilter("?limit=3&offset=5&city=cont:os&sort=city"));
@@ -61,6 +63,10 @@ namespace SqlKataMySql.Samples
             
             // multisort také nefunguje
             // GetByQueryFilter(CreateFilter("?limit=3&city=cont:os&sort=city,CitiziensCount"));
+
+            var dt = DateTime.Today.AddDays(-5).ToString("yyyy-MM-ddTHH:mm:ss");
+            var url = $"?limit=3&datecreated=gte:{dt}&sort=datecreated:desc";
+            GetByQueryFilter(CreateFilter(url));
         }
 
         private static IDictionary<string, string[]> CreateFilter(string url)

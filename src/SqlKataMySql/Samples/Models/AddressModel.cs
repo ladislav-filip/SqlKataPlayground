@@ -6,6 +6,7 @@
 
 #endregion
 
+using System;
 using SqlKataMySql.Infrastructure;
 
 namespace SqlKataMySql.Samples.Models
@@ -20,5 +21,7 @@ namespace SqlKataMySql.Samples.Models
         public string Name { get; set; }
         
         public int CitiziensCount { get; set; }
+
+        public DateTime DateCreated { get; set; }
     }
 }

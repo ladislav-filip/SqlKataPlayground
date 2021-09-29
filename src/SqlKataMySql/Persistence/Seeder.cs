@@ -47,7 +47,7 @@ namespace SqlKataMySql.Persistence
         {
             const string sql = @"create view AddressesView
 as
-select a.AddressId, City, Street, Zip, Number, a.CityTypeId, CreateByUserId,
+select a.AddressId, City, Street, Zip, Number, a.CityTypeId, CreateByUserId, a.DateCreated,
        CT.Name as CityTypeName, CitiziensCount,
        U.UserId, U.Name, Surname
 from Addresses a
@@ -101,7 +101,8 @@ order by City";
                     var ent = new Address { City = addr.OBEC, Street = addr.ULICE, Zip = addr.PSC, 
                         Number = rnd.Next(1, 200),
                         CityType = cityTypes[rndCityTypes.Next(0, cityTypes.Length)],
-                        CreateByUser = users[rndUsers.Next(0, users.Length)]
+                        CreateByUser = users[rndUsers.Next(0, users.Length)],
+                        DateCreated = DateTime.Now.AddDays(0 - rnd.Next(1, 200))
                     };
                     _dbContext.Addresses.Add(ent);
                 }

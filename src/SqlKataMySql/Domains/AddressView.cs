@@ -6,6 +6,8 @@
 
 #endregion
 
+using System;
+
 namespace SqlKataMySql.Domains
 {
     public class AddressView
@@ -18,5 +20,7 @@ namespace SqlKataMySql.Domains
         public string CityTypeName { get; set; }
         
         public int CitiziensCount { get; set; }
+
+        public DateTime DateCreated { get; set; }
     }
 }
