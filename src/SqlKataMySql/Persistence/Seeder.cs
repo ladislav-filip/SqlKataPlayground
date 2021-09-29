@@ -10,6 +10,7 @@ using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Converters;
 using SqlKataMySql.Domains;
 
@@ -28,8 +29,9 @@ namespace SqlKataMySql.Persistence
         {
             await _dbContext.Database.EnsureDeletedAsync();
             await _dbContext.Database.EnsureCreatedAsync();
+            await CreateAddressesView();
             
-            // naplnímě větším množstvím dat
+            // naplníme větším množstvím dat
             await SeedAddressesAsync();
             await SeedAddressesAsync();
             await SeedAddressesAsync();
@@ -41,6 +43,20 @@ namespace SqlKataMySql.Persistence
             Console.WriteLine();
         }
 
+        private async Task CreateAddressesView()
+        {
+            const string sql = @"create view AddressesView
+as
+select a.AddressId, City, Street, Zip, Number, a.CityTypeId, CreateByUserId,
+       CT.Name as CityTypeName, CitiziensCount,
+       U.UserId, U.Name, Surname
+from Addresses a
+         inner join CityTypes CT on a.CityTypeId = CT.CityTypeId
+         inner join Users U on a.CreateByUserId = U.UserId
+order by City";
+            await _dbContext.Database.ExecuteSqlRawAsync(sql);
+        }
+        
         private IEnumerable<CityType> CreateCityTypes()
         {
             var data = new CityType[]

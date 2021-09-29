@@ -27,13 +27,21 @@ namespace SqlKataMySql.Extensions
 
             //SimpleAddressesRun(scope);
             //SimpleAddressesWithIncludeRun(scope);
-            DapperSimpleRun(scope);
+            //DapperSimpleRun(scope);
+            EfSimpleRun(scope);
 
             Console.WriteLine("Console run...");
 
             return host;
         }
 
+        private static void EfSimpleRun(IServiceScope scope)
+        {
+            var qb = scope.ServiceProvider.GetRequiredService<EfBuildAddress>();
+            // qb.ByCityContains("os");
+            qb.GetFromView();
+        }
+        
         private static void DapperSimpleRun(IServiceScope scope)
         {
             var qb = scope.ServiceProvider.GetRequiredService<DapperBuildAddress>();

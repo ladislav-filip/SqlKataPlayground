@@ -13,6 +13,7 @@ using SqlKataMySql.Samples;
 
 namespace SqlKataMySql.Infrastructure
 {
+    [MinColumn, MaxColumn]
     public class Benchmarks
     {
         private QueryBuildAddresses _queryBuildAddresses;
@@ -20,7 +21,7 @@ namespace SqlKataMySql.Infrastructure
         private QueryBuildAddressesWithCityType _queryBuildAddressesWithCityType;
         private DapperBuildAddress _dapperBuildAddress;
 
-        private const int MaxLoop = 30;
+        private const int MaxLoop = 20;
 
         public Benchmarks()
         {
@@ -42,22 +43,33 @@ namespace SqlKataMySql.Infrastructure
             Console.WriteLine("Initialize benchmark...");
         }
 
+        private readonly string[] _contains = { "os", "Nad", "er", "Bratislava", "Praha", "Brno", "Vary", "men", "Kladno", "os", "Nad", "er", "Bratislava", "Praha", "Brno", "Vary", "men", "Kladno" };
+        
         [Benchmark]
         public void ByCityContains()
         {
-            for(var i=0; i<MaxLoop; i++) _queryBuildAddresses.ByCityContains("os");
+            foreach (var contain in _contains)
+            {
+                _queryBuildAddresses.ByCityContains(contain);                
+            }
         }
         
         [Benchmark]
         public void EfByCityContains()
         {
-            for(var i=0; i<MaxLoop; i++) _efBuildAddress.ByCityContains("os");
+            foreach (var contain in _contains)
+            {
+                _efBuildAddress.ByCityContains(contain);                
+            }
         }
         
         [Benchmark]
         public void DapperByCityContains()
         {
-            for(var i=0; i<MaxLoop; i++) _dapperBuildAddress.ByCityContains("os");
+            foreach (var contain in _contains)
+            {
+                _dapperBuildAddress.ByCityContains(contain);                
+            }
         }
 
         [Benchmark]
@@ -70,6 +82,12 @@ namespace SqlKataMySql.Infrastructure
         public void EfGetJoined()
         {
             for(var i=0; i<MaxLoop; i++) _efBuildAddress.GetJoined();
+        }
+        
+        [Benchmark]
+        public void EfGetJoinedByView()
+        {
+            for(var i=0; i<MaxLoop; i++) _efBuildAddress.GetFromView();
         }
         
         [Benchmark]
