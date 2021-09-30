@@ -30,7 +30,8 @@ namespace SqlKataMySql.Extensions
             //SimpleAddressesRun(scope);
             //SimpleAddressesWithIncludeRun(scope);
             //DapperSimpleRun(scope);
-            EfSimpleRun(scope);
+            //EfSimpleRun(scope);
+            await WhereAddress(scope);
 
             Console.WriteLine("Console run...");
 
@@ -68,6 +69,13 @@ namespace SqlKataMySql.Extensions
             qb.LimitFive();
             qb.LimitFiveForJosef();
             qb.LimitFiveForJosefPluralize();
+        }
+
+        private static async Task WhereAddress(IServiceScope scope)
+        {
+            var qb = scope.ServiceProvider.GetRequiredService<QueryBuildWhere>();
+            await qb.GetByDate();
+            await qb.GetByTime();
         }
     }
 }
