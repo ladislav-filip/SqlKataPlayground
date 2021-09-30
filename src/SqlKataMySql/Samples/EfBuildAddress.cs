@@ -49,32 +49,29 @@ namespace SqlKataMySql.Samples
         {
             // https://helpdesk.fullsys.cz/dokuwiki/skoda_vyvoj/ppsnet/programovani_postupy_a_rady/predavani_datoveho_filtru_v_url_query_stringu?s[]=url&s[]=filtr#operatory
             
-            GetByQueryFilter(CreateFilter("?limit=3&city=cont:os&sort=city"));                          // LIKE
-            GetByQueryFilter(CreateFilter("?limit=3&city=cont:os&sort=city&CitiziensCount=gt:10000"));  // LIKE and GREATER
-            GetByQueryFilter(CreateFilter("?limit=3&offset=5&city=cont:os&sort=city"));                 // OFFSET
-            GetByQueryFilter(CreateFilter("?limit=3&city=cont:os&sort=city&CitiziensCount=neq:10000")); // LIKE and NOT EQUAL
-            GetByQueryFilter(CreateFilter("?limit=3&offset=5&city=nill&sort=city"));                    // IS NULL string
-            GetByQueryFilter(CreateFilter("?limit=3&offset=5&city=nnill&sort=city"));                   // IS NOT NULL string
-            
-            var dt = DateTime.Today.AddDays(-5).ToString("yyyy-MM-ddTHH:mm:ss");
-            var url = $"?limit=3&datecreated=gte:{dt}&sort=datecreated:desc";
-            GetByQueryFilter(CreateFilter(url));
-            
-            // chybně generuje AND místo OR
-            // GetByQueryFilter(CreateFilter("?limit=3&offset=5&city=in:Kladno,Jicin&sort=city"));
-            // GetByQueryFilter(CreateFilter("?sort=city&CitiziensCount=in:10000,500000"));
-            
-            // vygeneruje chybně: WHERE (`a`.`CitiziensCount` <> 10000) AND (`a`.`CitiziensCount` = 500000)
-            // GetByQueryFilter(CreateFilter("?sort=city&CitiziensCount=nin:10000,500000"));
-            
-            // multisort také nefunguje
-            // GetByQueryFilter(CreateFilter("?limit=3&city=cont:os&sort=city,CitiziensCount"));
-            
+            // GetByQueryFilter(CreateFilter("?limit=3&city=cont:os&sort=city"));                          // LIKE
+            // GetByQueryFilter(CreateFilter("?limit=3&city=cont:os&sort=city&CitiziensCount=gt:10000"));  // LIKE and GREATER
+            // GetByQueryFilter(CreateFilter("?limit=3&offset=5&city=cont:os&sort=city"));                 // OFFSET
+            // GetByQueryFilter(CreateFilter("?limit=3&city=cont:os&sort=city&CitiziensCount=neq:10000")); // LIKE and NOT EQUAL
+            // GetByQueryFilter(CreateFilter("?limit=3&offset=5&city=nill&sort=city"));                    // IS NULL string
+            // GetByQueryFilter(CreateFilter("?limit=3&offset=5&city=nnill&sort=city"));                   // IS NOT NULL string
+            // GetByQueryFilter(CreateFilter("?limit=3&offset=5&city=in:Kladno,Jicin&sort=city"));         // IN clausule
+            // GetByQueryFilter(CreateFilter("?sort=city&CitiziensCount=in:10000,500000"));                // IN clausule
+            // GetByQueryFilter(CreateFilter("?limit=2&sort=city&CitiziensCount=10000,500000"));           // IN clausule pomocí "="
+            // GetByQueryFilter(CreateFilter("?limit=2&sort=city&CitiziensCount=nin:10000,500000"));       // NOT IN clausule
+            // GetByQueryFilter(CreateFilter("?limit=3&city=cont:os&sort=city:DESC,CitiziensCount"));      // ORDER BY multiple
+            //
+            // var dt = DateTime.Today.AddDays(-5).ToString("yyyy-MM-ddTHH:mm:ss");
+            // var url = $"?limit=3&datecreated=gte:{dt}&sort=datecreated:desc";
+            // GetByQueryFilter(CreateFilter(url));
+
             // IS NULL nefunguje na DateTime
             // GetByQueryFilter(CreateFilter("?limit=3&offset=5&datecreated=nill&sort=city"));
             
             // IS NULL nefunguje na number
             // GetByQueryFilter(CreateFilter("?limit=3&offset=5&CitiziensCount=nill&sort=city"));
+            
+            
         }
 
         private static IDictionary<string, string[]> CreateFilter(string url)
@@ -84,8 +81,8 @@ namespace SqlKataMySql.Samples
             var preFilter = urlQuery.AllKeys.ToDictionary(k => k, k => urlQuery[k]);
             foreach (var (key, value) in preFilter)
             {
-                var values = value.Split(',');
-                filter.Add(key, values);
+                // var values = value.Split(',');
+                filter.Add(key, new []{value});
             }
 
             return filter;
