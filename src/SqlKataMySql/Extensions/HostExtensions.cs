@@ -74,8 +74,9 @@ namespace SqlKataMySql.Extensions
         private static async Task WhereAddress(IServiceScope scope)
         {
             var qb = scope.ServiceProvider.GetRequiredService<QueryBuildWhere>();
-            await qb.GetByDate();
-            await qb.GetByTime();
+            // await qb.GetByDate();
+            // await qb.GetByTime();
+            await qb.GetByCityTypeEnum();
         }
     }
 }

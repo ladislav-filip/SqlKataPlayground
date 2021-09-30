@@ -7,6 +7,8 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Humanizer;
 using SqlKata;
@@ -80,6 +82,12 @@ namespace SqlKataMySql.Extensions.SqlKataExtensions
 
             query = query.Join(tableJoin, first, second, type: type);
 
+            return query;
+        }
+
+        public static Query WhereInStr<T>(this Query query, string column, IEnumerable<T> values)
+        {
+            query = query.WhereIn(column, values.Select(p => p.ToString()));
             return query;
         }
     }

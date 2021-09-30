@@ -9,6 +9,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using SqlKata;
 using SqlKata.Execution;
 using SqlKataMySql.Domains;
 using SqlKataMySql.Extensions.SqlKataExtensions;
@@ -18,6 +19,8 @@ namespace SqlKataMySql.Samples
 {
     public class QueryBuildWhere : QueryBuildBase
     {
+        public enum CityTypeEnum { Village, Town, City, BigCity, MegaCity }
+        
         public QueryBuildWhere(ICustomQueryFactory customQueryFactory) : base(customQueryFactory)
         {
         }
@@ -38,6 +41,17 @@ namespace SqlKataMySql.Samples
             var qf = _customQueryFactory.Query();
             var data = (await qf.QueryBy<Address>()
                 .WhereTime(nameof(Address.DateCreated), ">",  DateTime.Today.AddDays(-7))
+                .GetAsync<Address>()).ToArray();
+            Print(data);
+        }
+        
+        public async Task GetByCityTypeEnum()
+        {
+            var qf = _customQueryFactory.Query();
+            var data = (await qf.QueryBy<Address>()
+                .JoinBy<CityType, Address>()
+                .WhereInStr(nameof(CityType.Name), new[] { CityTypeEnum.City, CityTypeEnum.Town })
+                .Limit(3)
                 .GetAsync<Address>()).ToArray();
             Print(data);
         }
