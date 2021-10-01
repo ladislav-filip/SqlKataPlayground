@@ -1,0 +1,10 @@
+﻿version: "3.5"
+services:
+  pps-mongo:
+    image: mongo:5.0
+    container_name: "mongo-query-filter"
+    ports:
+      - 27117:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: lok
