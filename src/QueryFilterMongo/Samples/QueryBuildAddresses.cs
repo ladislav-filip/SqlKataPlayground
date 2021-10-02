@@ -37,6 +37,8 @@ namespace QueryFilterMongo.Samples
             // await GetByQueryFilter(CreateFilter(url));
             // url = $"?limit=3&datecreated=lte:{dt}&sort=datecreated:desc";
             // await GetByQueryFilter(CreateFilter(url));
+            
+            // await GetByQueryFilter(CreateFilter("?limit=3&datecreated=prevweek&sort=city"));        // PREVWEEK
 
             // IS NULL nefunguje na DateTime
             // GetByQueryFilter(CreateFilter("?limit=3&offset=5&datecreated=nill&sort=city"));

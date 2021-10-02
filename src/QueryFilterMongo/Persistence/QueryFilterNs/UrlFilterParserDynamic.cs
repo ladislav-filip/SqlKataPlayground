@@ -10,34 +10,61 @@ namespace QueryFilterMongo.Persistence.QueryFilterNs
 {
     public class UrlFilterParserDynamic<TEntity>
     {
-        private List<string> ignoredParams=new List<string>(new string[] {"limit","offset","sort"});
+        private const string Limit = "limit";
+        private const string Offset = "offset";
+        private const string Sort = "sort";
+        private const string Desc = "desc";
+        
+        private readonly Regex _filterParamRegex = new("^((?<cond>eq|neq|cont|ends|sts|gt|gte|lt|lte|in|nin|ncont|nends|nsts|eqci|neqci)\\:)?(?<value>.+)",
+            RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline);
+        
+        private readonly List<string> _timePeriods = new List<string>(new string[] { "today", "yesterday", "lastSevenDays", "lastThirtyDays", "prevMonth", "prevWeek" });
 
-        private Dictionary<string, Type> knownProperties =
-            new Dictionary<string, Type>(StringComparer.InvariantCultureIgnoreCase);
+        private readonly List<string> _ignoredParams = new(new[] { Limit, Offset, Sort });
 
-        public UrlFilterParserDynamic(Dictionary<string, Type> known=null)
+        private readonly Dictionary<string, Type> _knownProperties = new(StringComparer.InvariantCultureIgnoreCase);
+
+        public UrlFilterParserDynamic(Dictionary<string, Type> knownFields = null)
         {
-            if (known != null && known.Count > 0)
+            if (knownFields is not { Count: > 0 })
             {
-                foreach (var pair in known)
-                {
-                    if(!knownProperties.ContainsKey(pair.Key))
-                        knownProperties.Add(pair.Key, pair.Value);
-                }
+                return;
+            }
+
+            foreach (var (key, value) in knownFields.Where(pair => !_knownProperties.ContainsKey(pair.Key)))
+            {
+                _knownProperties.Add(key, value);
             }
         }
 
         private enum Operator
         {
-            Eq, Neq, Cont, Ends, Sts, Gt, Gte, Lt, Lte, In, Nin, NCont, NEnds, NSts, EqCI, NeqCI
+            Eq,
+            Neq,
+            Cont,
+            Ends,
+            Sts,
+            Gt,
+            Gte,
+            Lt,
+            Lte,
+            In,
+            Nin,
+            NCont,
+            NEnds,
+            NSts,
+            EqCi,
+            NeqCi
         }
 
         public UrlFilterParserDynamic<TEntity> IgnoreParams(params string[] list)
         {
             foreach (var param in list)
             {
-                if(!string.IsNullOrWhiteSpace(param))
-                    ignoredParams.Add(param.ToLower());
+                if (!string.IsNullOrWhiteSpace(param))
+                {
+                    _ignoredParams.Add(param.ToLower());
+                }
             }
 
             return this;
@@ -45,198 +72,202 @@ namespace QueryFilterMongo.Persistence.QueryFilterNs
 
         public DynamicQueryParams<TEntity> Parse(IDictionary<string, StringValues> queryString, FilterDefinition<TEntity> defaultFilter = null)
         {
-            DynamicQueryParams<TEntity> result=new DynamicQueryParams<TEntity>();
+            var result = new DynamicQueryParams<TEntity>();
 
-            result.Filter = parseFilter(result.UnknownParams, queryString);
+            result.Filter = ParseFilter(result.UnknownParams, queryString);
 
-            result.FindOptions = new FindOptions<TEntity>() {Collation = new Collation("cs", strength: CollationStrength.Secondary)};
-            parseSorting(result.FindOptions, queryString);
-            parsePaging(result, queryString);
+            result.FindOptions = new FindOptions<TEntity>() { Collation = new Collation("cs", strength: CollationStrength.Secondary) };
+            ParseSorting(result.FindOptions, queryString);
+            ParsePaging(result, queryString);
 
             return result;
         }
 
-        private void parsePaging(DynamicQueryParams<TEntity> result, IDictionary<string, StringValues> queryString)
+        private void ParsePaging(DynamicQueryParams<TEntity> result, IDictionary<string, StringValues> queryString)
         {
-            if (queryString != null && queryString.Count > 0)
+            if (queryString is not { Count: > 0 })
             {
-                foreach (var key in queryString.Keys)
-                {
-                    int limit;
-                    if (key.Equals("limit", StringComparison.InvariantCultureIgnoreCase) && queryString[key].Count>0 && int.TryParse(queryString[key][0], out limit))
-                    {
-                        result.FindOptions.Limit = limit;
-                        result.Limit = limit;
-                    }
+                return;
+            }
 
-                    int offset;
-                    if (key.Equals("offset", StringComparison.InvariantCultureIgnoreCase) && queryString[key].Count > 0 && int.TryParse(queryString[key][0], out offset))
-                    {
-                        result.FindOptions.Skip = offset;
-                        result.Offset = offset;
-                    }
+            foreach (var key in queryString.Keys)
+            {
+                if (key.Equals(Limit, StringComparison.InvariantCultureIgnoreCase) && queryString[key].Count > 0 && int.TryParse(queryString[key][0], out var limit))
+                {
+                    result.FindOptions.Limit = limit;
+                    result.Limit = limit;
                 }
+
+                if (!key.Equals(Offset, StringComparison.InvariantCultureIgnoreCase) || queryString[key].Count <= 0 || !int.TryParse(queryString[key][0], out var offset))
+                {
+                    continue;
+                }
+
+                result.FindOptions.Skip = offset;
+                result.Offset = offset;
             }
         }
 
-        private void parseSorting(FindOptions<TEntity> options, IDictionary<string, StringValues> queryString)
+        private void ParseSorting(FindOptions<TEntity> options, IDictionary<string, StringValues> queryString)
         {
-            if (queryString != null && queryString.Count > 0)
+            if (queryString is not { Count: > 0 })
             {
-                SortDefinition<TEntity> sort = null;
+                return;
+            }
 
-                foreach (var key in queryString.Keys)
+            SortDefinition<TEntity> sort = null;
+
+            foreach (var key in queryString.Keys)
+            {
+                if (!key.Equals(Sort, StringComparison.InvariantCultureIgnoreCase) || queryString[key].Count <= 0)
                 {
-                    if (key.Equals("sort", StringComparison.InvariantCultureIgnoreCase) && queryString[key].Count>0)
-                    {
-                        string[] fields = queryString[key][0]
-                            .Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries);
-
-                        foreach (var field in fields)
-                        {
-                            if(string.IsNullOrWhiteSpace(field))
-                                continue;
-                            
-                            string[] tokens=field.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
-                            if (tokens.Length > 0)
-                            {
-                                string fieldName = tokens[0].Trim();
-                                string propName = getPropertyName(fieldName);
-
-                                if (propName != null)
-                                {
-                                    SortDefinition<TEntity> oneSort;
-                                    if (tokens.Length > 1 && "desc".Equals(tokens[1],
-                                            StringComparison.InvariantCultureIgnoreCase))
-                                    {
-                                        oneSort = Builders<TEntity>.Sort.Descending(propName);
-                                    }
-                                    else
-                                    {
-                                        oneSort = Builders<TEntity>.Sort.Ascending(propName);
-                                    }
-
-                                    if (sort == null)
-                                    {
-                                        sort = oneSort;
-                                    }
-                                    else
-                                    {
-                                        sort = Builders<TEntity>.Sort.Combine(sort, oneSort);
-                                    }
-                                }
-                                else
-                                {
-                                    throw new ArgumentException($"Nezname pole pro razeni zaznamu: {fieldName}.");
-                                }
-                            }
-                        }
-                    }
+                    continue;
                 }
 
-                if (sort != null)
-                    options.Sort = sort;
-            }
-        }
+                var fields = queryString[key][0].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
-        private FilterDefinition<TEntity> parseFilter(IDictionary<string, StringValues> unknownParams, IDictionary<string, StringValues> queryString)
-        {
-            List<FilterDefinition<TEntity>> filters = new List<FilterDefinition<TEntity>>();
-
-            if (queryString != null && queryString.Count > 0)
-            {
-                foreach (KeyValuePair<string, StringValues> pair in queryString)
+                foreach (var field in fields.Where(p => !string.IsNullOrWhiteSpace(p)))
                 {
-                    if(ignoredParams.Contains(pair.Key.ToLower()))
+                    var tokens = field.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    if (tokens.Length <= 0)
+                    {
                         continue;
+                    }
 
-                    var propType = getPropertyType(pair.Key);
-                    var propName = getPropertyName(pair.Key);
+                    var fieldName = tokens[0].Trim();
+                    var propName = GetPropertyName(fieldName);
 
-                    if (propType != null)
+                    if (propName != null)
                     {
-                        foreach (var value in pair.Value)
+                        SortDefinition<TEntity> oneSort;
+                        if (tokens.Length > 1 && Desc.Equals(tokens[1],
+                            StringComparison.InvariantCultureIgnoreCase))
                         {
-                            var filter = parseFilterParam(new PropInfo() {Name = propName, PropType = propType}, value);
-                            if (filter != null)
-                                filters.Add(filter);
+                            oneSort = Builders<TEntity>.Sort.Descending(propName);
                         }
+                        else
+                        {
+                            oneSort = Builders<TEntity>.Sort.Ascending(propName);
+                        }
+
+                        sort = sort == null ? oneSort : Builders<TEntity>.Sort.Combine(sort, oneSort);
                     }
                     else
                     {
-                        unknownParams.Add(pair);
+                        throw new ArgumentException($"Unknown field for sort: {fieldName}.");
                     }
                 }
             }
 
-            if (filters.Count > 0)
+            if (sort != null)
             {
-                return Builders<TEntity>.Filter.And(filters);
-            }
-            else
-            {
-                return Builders<TEntity>.Filter.Empty;
+                options.Sort = sort;
             }
         }
 
-        private Type getPropertyType(string propertyName)
+        private FilterDefinition<TEntity> ParseFilter(IDictionary<string, StringValues> unknownParams, IDictionary<string, StringValues> queryString)
         {
-            if (knownProperties.ContainsKey(propertyName))
-                return knownProperties[propertyName];
+            var filters = new List<FilterDefinition<TEntity>>();
 
-            var properties = propertyName.Split(new char[] {'.','/'}, StringSplitOptions.RemoveEmptyEntries);
+            if (queryString is not { Count: > 0 })
+            {
+                return filters.Count > 0 ? Builders<TEntity>.Filter.And(filters) : Builders<TEntity>.Filter.Empty;
+            }
+
+            foreach (var pair in queryString)
+            {
+                if (_ignoredParams.Contains(pair.Key.ToLower()))
+                {
+                    continue;
+                }
+
+                var propType = GetPropertyType(pair.Key);
+                var propName = GetPropertyName(pair.Key);
+
+                if (propType != null)
+                {
+                    filters.AddRange(pair.Value.Select(value => ParseFilterParam(new PropInfo
+                        {
+                            Name = propName,
+                            PropType = propType
+                        }, value))
+                        .Where(filter => filter != null));
+                }
+                else
+                {
+                    unknownParams.Add(pair);
+                }
+            }
+
+            return filters.Count > 0 ? Builders<TEntity>.Filter.And(filters) : Builders<TEntity>.Filter.Empty;
+        }
+
+        private Type GetPropertyType(string propertyName)
+        {
+            if (_knownProperties.ContainsKey(propertyName))
+            {
+                return _knownProperties[propertyName];
+            }
+
+            var properties = propertyName.Split(new[] { '.', '/' }, StringSplitOptions.RemoveEmptyEntries);
             var type = typeof(TEntity);
 
-            for (int i=0;i<properties.Length;i++)
+            for (var i = 0; i < properties.Length; i++)
             {
                 var property = properties[i];
-                bool last = i == (properties.Length - 1);
+                var last = i == (properties.Length - 1);
 
-                System.Reflection.PropertyInfo propInfo = type.GetProperty(property,
-                    System.Reflection.BindingFlags.IgnoreCase | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+                var propInfo = type.GetProperty(property, System.Reflection.BindingFlags.IgnoreCase | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
 
                 if (propInfo != null)
                 {
                     if (last)
+                    {
                         return propInfo.PropertyType;
-                    else
-                        type = propInfo.PropertyType;
+                    }
+
+                    type = propInfo.PropertyType;
                 }
                 else
                 {
-                    System.Reflection.FieldInfo fieldInfo = type.GetField(property,
-                        System.Reflection.BindingFlags.IgnoreCase | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+                    var fieldInfo = type.GetField(property, System.Reflection.BindingFlags.IgnoreCase | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
 
-                    if (fieldInfo != null)
+                    if (fieldInfo == null)
                     {
-                        if (last)
-                            return fieldInfo.FieldType;
-                        else
-                            type = fieldInfo.FieldType;
+                        continue;
                     }
+
+                    if (last)
+                    {
+                        return fieldInfo.FieldType;
+                    }
+
+                    type = fieldInfo.FieldType;
                 }
             }
 
             return null;
         }
 
-        private string getPropertyName(string propertyName)
+        private string GetPropertyName(string propertyName)
         {
-            if (knownProperties.ContainsKey(propertyName))
-                return knownProperties.FirstOrDefault(p=>p.Key.Equals(propertyName, StringComparison.InvariantCultureIgnoreCase)).Key;
+            if (_knownProperties.ContainsKey(propertyName))
+            {
+                return _knownProperties.FirstOrDefault(p => p.Key.Equals(propertyName, StringComparison.InvariantCultureIgnoreCase)).Key;
+            }
 
-            List<string> propertyTokens = new List<string>();
+            var propertyTokens = new List<string>();
 
-            var properties = propertyName.Split(new char[] { '.', '/' }, StringSplitOptions.RemoveEmptyEntries);
+            var properties = propertyName.Split(new[] { '.', '/' }, StringSplitOptions.RemoveEmptyEntries);
             var type = typeof(TEntity);
 
-            for (int i = 0; i < properties.Length; i++)
+            for (var i = 0; i < properties.Length; i++)
             {
                 var property = properties[i];
-                bool last = i == (properties.Length - 1);
+                var last = i == (properties.Length - 1);
 
-                System.Reflection.PropertyInfo propInfo = type.GetProperty(property,
-                    System.Reflection.BindingFlags.IgnoreCase | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+                var propInfo = type.GetProperty(property, System.Reflection.BindingFlags.IgnoreCase | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
 
                 if (propInfo != null)
                 {
@@ -245,74 +276,56 @@ namespace QueryFilterMongo.Persistence.QueryFilterNs
                         propertyTokens.Add(propInfo.Name);
                         break;
                     }
-                    else
-                    {
-                        propertyTokens.Add(propInfo.Name);
-                        type = propInfo.PropertyType;
-                    }
+
+                    propertyTokens.Add(propInfo.Name);
+                    type = propInfo.PropertyType;
                 }
                 else
                 {
-                    System.Reflection.FieldInfo fieldInfo = type.GetField(property,
-                        System.Reflection.BindingFlags.IgnoreCase | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+                    var fieldInfo = type.GetField(property, System.Reflection.BindingFlags.IgnoreCase | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
 
-                    if (fieldInfo != null)
+                    if (fieldInfo == null)
                     {
-                        if (last)
-                        {
-                            propertyTokens.Add(fieldInfo.Name);
-                            break;
-                        }
-                        else
-                        {
-                            propertyTokens.Add(fieldInfo.Name);
-                            type = fieldInfo.FieldType;
-                        }
+                        continue;
                     }
+
+                    if (last)
+                    {
+                        propertyTokens.Add(fieldInfo.Name);
+                        break;
+                    }
+
+                    propertyTokens.Add(fieldInfo.Name);
+                    type = fieldInfo.FieldType;
                 }
             }
 
-            if (propertyTokens.Count > 0)
-            {
-                string result = "";
-                foreach (var token in propertyTokens)
-                {
-                    result += (result.Length > 0 ? "." : "") + token;
-                }
+            return propertyTokens.Count <= 0 
+                ? null 
+                : propertyTokens.Aggregate("", (current, token) => current + ((current.Length > 0 ? "." : "") + token));
+        }
+        
+        private FilterDefinition<TEntity> ParseFilterParam(PropInfo propInfo, string value)
+        {
+            var fieldName = propInfo.Name;
 
-                return result;
+            var m = _filterParamRegex.Match(value);
+            if (!m.Success)
+            {
+                return AddCondition(fieldName, propInfo.PropType, Operator.Eq, PrepareValue(propInfo.PropType, value));
             }
 
-            return null;
+            var oper = FindOperator(fieldName, m.Groups["cond"]);
+            return AddCondition(fieldName, propInfo.PropType, oper, PrepareValue(propInfo.PropType, m.Groups["value"].Value));
+
         }
 
-        private Regex filterParamRegex=new Regex("^((?<cond>eq|neq|cont|ends|sts|gt|gte|lt|lte|in|nin|ncont|nends|nsts|eqci|neqci)\\:)?(?<value>.+)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline);
-
-        private FilterDefinition<TEntity> parseFilterParam(PropInfo propInfo, string value)
+        private FilterDefinition<TEntity> AddCondition(string fieldName, Type fieldType, Operator oper, object[] values)
         {
-            string fieldName = propInfo.Name;
-
-            Match m = filterParamRegex.Match(value);
-            if (m.Success)
-            {
-                Operator oper = findOperator(fieldName, m.Groups["cond"]);
-                return addCondition(fieldName, propInfo.PropType, oper, prepareValue(propInfo.PropType, m.Groups["value"].Value));
-                
-            }
-            else
-            {
-                return addCondition(fieldName, propInfo.PropType, Operator.Eq, prepareValue(propInfo.PropType, value));
-            }
-        }
-
-        private List<string> timePeriods=new List<string>(new string[] {"today", "yesterday", "lastSevenDays", "lastThirtyDays", "prevMonth", "prevWeek" });
-
-        private FilterDefinition<TEntity> addCondition(string fieldName, Type fieldType, Operator oper, object[] values)
-        {
-            List<FilterDefinition<TEntity>> filters = new List<FilterDefinition<TEntity>>();
+            var filters = new List<FilterDefinition<TEntity>>();
             FilterDefinition<TEntity> filter = null;
 
-            if (oper == Operator.In || oper == Operator.Nin)
+            if (oper is Operator.In or Operator.Nin)
             {
                 switch (oper)
                 {
@@ -323,55 +336,55 @@ namespace QueryFilterMongo.Persistence.QueryFilterNs
                         filter = Builders<TEntity>.Filter.Nin(fieldName, values);
                         break;
                 }
+
                 if (filter != null)
+                {
                     filters.Add(filter);
+                }
             }
             else
             {
-
                 foreach (var value in values)
                 {
-
                     if (oper.Equals(Operator.Eq) && (fieldType == typeof(DateTime) || fieldType == typeof(DateTime?)) &&
-                        value is string &&
-                        timePeriods.Contains(value as string, StringComparer.OrdinalIgnoreCase))
+                        value is string && _timePeriods.Contains(value as string, StringComparer.OrdinalIgnoreCase))
                     {
                         // Casove obdobi
-                        DateTime dnesniPulnoc = DateTime.Now.Date;
-                        DateTime? casOd=null;
-                        DateTime? casDo=null;
+                        var dnesniPulnoc = DateTime.Now.Date;
+                        DateTime? casOd = null;
+                        DateTime? casDo = null;
                         switch ((value as string).ToLower())
                         {
                             // today, yesterday, lastSevenDays, lastThirtyDays, prevMonth a prevWeek
                             case "today":
-                                casOd=dnesniPulnoc;
-                                casDo=dnesniPulnoc.AddDays(1);
+                                casOd = dnesniPulnoc;
+                                casDo = dnesniPulnoc.AddDays(1);
                                 break;
                             case "yesterday":
-                                DateTime vcerejsiPulnoc = DateTime.Now.Date.Subtract(TimeSpan.FromDays(1));
-                                casOd=vcerejsiPulnoc;
-                                casDo=vcerejsiPulnoc.AddDays(1);
+                                var vcerejsiPulnoc = DateTime.Now.Date.Subtract(TimeSpan.FromDays(1));
+                                casOd = vcerejsiPulnoc;
+                                casDo = vcerejsiPulnoc.AddDays(1);
                                 break;
                             case "lastsevendays":
-                                DateTime predSestiDny = dnesniPulnoc.Subtract(TimeSpan.FromDays(6));
-                                casOd=predSestiDny;
-                                casDo=dnesniPulnoc.AddDays(1);
+                                var predSestiDny = dnesniPulnoc.Subtract(TimeSpan.FromDays(6));
+                                casOd = predSestiDny;
+                                casDo = dnesniPulnoc.AddDays(1);
                                 break;
                             case "lastthirtydays":
-                                DateTime pred29Dny = dnesniPulnoc.Subtract(TimeSpan.FromDays(29));
-                                casOd=pred29Dny;
-                                casDo=dnesniPulnoc.AddDays(1);
+                                var pred29Dny = dnesniPulnoc.Subtract(TimeSpan.FromDays(29));
+                                casOd = pred29Dny;
+                                casDo = dnesniPulnoc.AddDays(1);
                                 break;
                             case "prevmonth":
                                 var zacatekMinulehoMesice =
                                     new DateTime(dnesniPulnoc.Year, dnesniPulnoc.Month, 1).AddMonths(-1);
-                                casOd=zacatekMinulehoMesice;
-                                casDo=zacatekMinulehoMesice.AddMonths(1);
+                                casOd = zacatekMinulehoMesice;
+                                casDo = zacatekMinulehoMesice.AddMonths(1);
                                 break;
                             case "prevweek":
-                                var zacatekMinulehoTydne = dnesniPulnoc.AddDays(-(int) dnesniPulnoc.DayOfWeek - 6);
-                                casOd=zacatekMinulehoTydne;
-                                casDo=zacatekMinulehoTydne.AddDays(7);
+                                var zacatekMinulehoTydne = dnesniPulnoc.AddDays(-(int)dnesniPulnoc.DayOfWeek - 6);
+                                casOd = zacatekMinulehoTydne;
+                                casDo = zacatekMinulehoTydne.AddDays(7);
                                 break;
                         }
 
@@ -395,13 +408,12 @@ namespace QueryFilterMongo.Persistence.QueryFilterNs
                             case Operator.Neq:
                                 filter = Builders<TEntity>.Filter.Ne(fieldName, value);
                                 break;
-                            case Operator.EqCI:
+                            case Operator.EqCi:
                                 if (fieldType == typeof(string) && value is string valEqCi)
                                 {
                                     var regexFilter = Regex.Escape(valEqCi);
                                     filter = Builders<TEntity>.Filter.Regex(fieldName,
                                         new BsonRegularExpression(regexFilter, "i"));
-                                    break;
                                 }
                                 else
                                 {
@@ -409,13 +421,12 @@ namespace QueryFilterMongo.Persistence.QueryFilterNs
                                 }
 
                                 break;
-                            case Operator.NeqCI:
+                            case Operator.NeqCi:
                                 if (fieldType == typeof(string) && value is string valNeqCi)
                                 {
                                     var regexFilter = Regex.Escape(valNeqCi);
                                     filter = Builders<TEntity>.Filter.Not(Builders<TEntity>.Filter.Regex(fieldName,
                                         new BsonRegularExpression(regexFilter, "i")));
-                                    break;
                                 }
                                 else
                                 {
@@ -429,12 +440,12 @@ namespace QueryFilterMongo.Persistence.QueryFilterNs
                                     var regexFilter = Regex.Escape(valCont);
                                     filter = Builders<TEntity>.Filter.Regex(fieldName,
                                         new BsonRegularExpression(regexFilter, "i"));
-                                    break;
                                 }
                                 else
                                 {
                                     filter = Builders<TEntity>.Filter.AnyEq(fieldName, value);
                                 }
+
                                 break;
                             case Operator.NCont:
                                 if (fieldType == typeof(string) && value is string valNcont)
@@ -442,12 +453,12 @@ namespace QueryFilterMongo.Persistence.QueryFilterNs
                                     var regexFilter = Regex.Escape(valNcont);
                                     filter = Builders<TEntity>.Filter.Not(Builders<TEntity>.Filter.Regex(fieldName,
                                         new BsonRegularExpression(regexFilter, "i")));
-                                    break;
                                 }
                                 else
                                 {
                                     filter = Builders<TEntity>.Filter.Not(Builders<TEntity>.Filter.AnyEq(fieldName, value));
                                 }
+
                                 break;
                             case Operator.Ends:
                                 if (fieldType == typeof(string) && value is string valEnds)
@@ -456,6 +467,7 @@ namespace QueryFilterMongo.Persistence.QueryFilterNs
                                     filter = Builders<TEntity>.Filter.Regex(fieldName,
                                         new BsonRegularExpression($"{regexFilter}$", "i"));
                                 }
+
                                 break;
                             case Operator.NEnds:
                                 if (fieldType == typeof(string) && value is string valNends)
@@ -464,6 +476,7 @@ namespace QueryFilterMongo.Persistence.QueryFilterNs
                                     filter = Builders<TEntity>.Filter.Not(Builders<TEntity>.Filter.Regex(fieldName,
                                         new BsonRegularExpression($"{regexFilter}$", "i")));
                                 }
+
                                 break;
                             case Operator.Sts:
                                 if (fieldType == typeof(string) && value is string valSts)
@@ -472,6 +485,7 @@ namespace QueryFilterMongo.Persistence.QueryFilterNs
                                     filter = Builders<TEntity>.Filter.Regex(fieldName,
                                         new BsonRegularExpression($"^{regexFilter}", "i"));
                                 }
+
                                 break;
                             case Operator.NSts:
                                 if (fieldType == typeof(string) && value is string valNsts)
@@ -480,6 +494,7 @@ namespace QueryFilterMongo.Persistence.QueryFilterNs
                                     filter = Builders<TEntity>.Filter.Not(Builders<TEntity>.Filter.Regex(fieldName,
                                         new BsonRegularExpression($"^{regexFilter}", "i")));
                                 }
+
                                 break;
                             case Operator.Gt:
                                 filter = Builders<TEntity>.Filter.Gt(fieldName, value);
@@ -503,62 +518,56 @@ namespace QueryFilterMongo.Persistence.QueryFilterNs
 
             if (filters.Count > 0)
             {
-                if(oper == Operator.Nin)
-                    return Builders<TEntity>.Filter.And(filters);
-                else
-                    return Builders<TEntity>.Filter.Or(filters);
-            }
-            else
-            {
-                return null;
+                return oper == Operator.Nin ? Builders<TEntity>.Filter.And(filters) : Builders<TEntity>.Filter.Or(filters);
             }
 
+            return null;
         }
 
-        private object[] prepareValue(Type propertyType, string value)
+        private object[] PrepareValue(Type propertyType, string value)
         {
-            var tokens=Regex.Split(value, "(?<!\\\\),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
-            object[] values=new object[tokens.Length];
+            var tokens = Regex.Split(value, "(?<!\\\\),(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+            var values = new object[tokens.Length];
 
-            for (int i = 0; i < tokens.Length; i++)
+            for (var i = 0; i < tokens.Length; i++)
             {
                 tokens[i] = tokens[i].Trim().Trim('"').Replace("\\\\", "\\").Replace("\\\"", "\"").Replace("\\,", ",").Replace("\\:", ":");
 
-                Type propType = Nullable.GetUnderlyingType(propertyType) ?? propertyType;
+                var propType = Nullable.GetUnderlyingType(propertyType) ?? propertyType;
                 try
                 {
                     values[i] = Convert.ChangeType(tokens[i], propType);
                 }
                 catch (Exception ex)
                 {
-                    if (ex is FormatException || ex is InvalidCastException)
+                    if (ex is FormatException or InvalidCastException)
+                    {
                         values[i] = tokens[i];
+                    }
                     else
+                    {
                         throw;
+                    }
                 }
             }
 
             return values;
         }
 
-        private Operator findOperator(string field, Group group)
+        private Operator FindOperator(string field, Group group)
         {
-            if (group.Success)
-            {
-                Operator oper;
-                if(Enum.TryParse< Operator>(group.Value, true, out oper))
-                {
-                    return oper;
-                }
-                else
-                {
-                    throw new ArgumentException($"Neznama podminka filtru podle sloupce {field}: {group.Value}.");
-                }
-            }
-            else
+            if (!group.Success)
             {
                 return Operator.Eq;
             }
+
+            if (Enum.TryParse<Operator>(group.Value, true, out var oper))
+            {
+                return oper;
+            }
+
+            throw new ArgumentException($"Unknown condition by field {field}: {@group.Value}.");
+
         }
     }
 }
