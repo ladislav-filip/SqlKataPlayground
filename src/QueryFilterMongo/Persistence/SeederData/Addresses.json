@@ -1,0 +1,1003 @@
+﻿{
+"Addresses": [
+    {
+      "OBEC" : "Příbor",
+      "ULICE" : "Na Nivách 1550",
+      "PSC" : "74258"
+    },
+    {
+      "OBEC" : "Přerov nad Labem   ",
+      "ULICE" : "Starý Vestec  224\/78     ",
+      "PSC" : "289 16"
+    },
+    {
+      "OBEC" : "Dvůr Králové nad Labem     ",
+      "ULICE" : "Legionářská 2832      ",
+      "PSC" : "544 01"
+    },
+    {
+      "OBEC" : "kkkkkkk",
+      "ULICE" : "neuvedeno",
+      "PSC" : "22222"
+    },
+    {
+      "OBEC" : "Praha 8",
+      "ULICE" : "Pobřežní 3     ",
+      "PSC" : "186 00"
+    },
+    {
+      "OBEC" : "Praha  5 - Stodůlky      ",
+      "ULICE" : "Za Mototechnou 1114\/4   ",
+      "PSC" : "155 00"
+    },
+    {
+      "OBEC" : "Praha  5 - Stodůlky                ",
+      "ULICE" : "Za Mototechnou 1114\/4              ",
+      "PSC" : "155 00"
+    },
+    {
+      "OBEC" : "Praha  5 - Stodůlky   ",
+      "ULICE" : "Za Mototechnou 1114\/4      ",
+      "PSC" : "155 00"
+    },
+    {
+      "OBEC" : "Hluboká nad Vlatvou",
+      "ULICE" : "Polní 931",
+      "PSC" : "37341"
+    },
+    {
+      "OBEC" : "Kolín IV",
+      "ULICE" : "Vužanova 164",
+      "PSC" : "280 02"
+    },
+    {
+      "OBEC" : "xbxvbxvxcvxcvx",
+      "ULICE" : "xxxcvxcvxcvxcv",
+      "PSC" : "xcvxcv"
+    },
+    {
+      "OBEC" : "Příbram",
+      "ULICE" : "Příbram 488",
+      "PSC" : "261 01"
+    },
+    {
+      "OBEC" : "Příbram 2",
+      "ULICE" : "Potoční 11",
+      "PSC" : "261 01"
+    },
+    {
+      "OBEC" : "Přeštice",
+      "ULICE" : "Havlíčkovo nám. 258",
+      "PSC" : "33401"
+    },
+    {
+      "OBEC" : "Mnichovice u Prahy",
+      "ULICE" : "Myšlínská 106",
+      "PSC" : "25164"
+    },
+    {
+      "OBEC" : "Nymburk",
+      "ULICE" : "Pístecká 2209",
+      "PSC" : "288 02"
+    },
+    {
+      "OBEC" : "Řehlovice",
+      "ULICE" : "Dubice 59",
+      "PSC" : "40002"
+    },
+    {
+      "OBEC" : "Příbram",
+      "ULICE" : "Zdaboř 488",
+      "PSC" : "26101"
+    },
+    {
+      "OBEC" : "Praha",
+      "ULICE" : "Francouzská 172\/30",
+      "PSC" : "120 00"
+    },
+    {
+      "OBEC" : "Zlín-Malenovice",
+      "ULICE" : "Svárovec 842",
+      "PSC" : "76302"
+    },
+    {
+      "OBEC" : "Výškov",
+      "ULICE" : "Výškov 143",
+      "PSC" : "440 01"
+    },
+    {
+      "OBEC" : "Kravaře",
+      "ULICE" : "Alejní 26",
+      "PSC" : "74721"
+    },
+    {
+      "OBEC" : "Praha 4",
+      "ULICE" : "Maternova 5",
+      "PSC" : "14800"
+    },
+    {
+      "OBEC" : "Vrdy",
+      "ULICE" : "Smetanovo náměstí 28",
+      "PSC" : "28571"
+    },
+    {
+      "OBEC" : "Šlapanice u Brna",
+      "ULICE" : "Jungmannova 494\/13",
+      "PSC" : "66451"
+    },
+    {
+      "OBEC" : "Brno",
+      "ULICE" : "Tyršova 5",
+      "PSC" : "61200"
+    },
+    {
+      "OBEC" : "Lomnice nad Lužnicí",
+      "ULICE" : "Budějovická 161",
+      "PSC" : "37816"
+    },
+    {
+      "OBEC" : "Lomnice nad Lužnicí",
+      "ULICE" : "Budějovická 161",
+      "PSC" : "37816"
+    },
+    {
+      "OBEC" : "Lomnice nad Lužnicí",
+      "ULICE" : "Budějovická 161",
+      "PSC" : "37816"
+    },
+    {
+      "OBEC" : "Lomnice nad Lužnicí",
+      "ULICE" : "Budějovická 161",
+      "PSC" : "37816"
+    },
+    {
+      "OBEC" : "Lomnice nad Lužnicí",
+      "ULICE" : "Budějovická 161",
+      "PSC" : "37816"
+    },
+    {
+      "OBEC" : "neuvedeno",
+      "ULICE" : "neuvedeno",
+      "PSC" : "10000"
+    },
+    {
+      "OBEC" : "Brno",
+      "ULICE" : "Tůmova 2265\/60",
+      "PSC" : "664 42"
+    },
+    {
+      "OBEC" : "Praha 8 Březiněves",
+      "ULICE" : "Na Fabiánce 145",
+      "PSC" : "182 00"
+    },
+    {
+      "OBEC" : "boskovice",
+      "ULICE" : "Neumannova 22",
+      "PSC" : "35201"
+    },
+    {
+      "OBEC" : "Buzuluk Komárov, nástupnická a.s.",
+      "ULICE" : "Buzulucká 108",
+      "PSC" : "26762"
+    },
+    {
+      "OBEC" : "Kamenický Šenov",
+      "ULICE" : "Prácheň 207",
+      "PSC" : "47114"
+    },
+    {
+      "OBEC" : "Pec pod Sněžkou ",
+      "ULICE" : "Pec pod Sněžkou 203",
+      "PSC" : "54221"
+    },
+    {
+      "OBEC" : "Skořice",
+      "ULICE" : "Skořice 3, pošta Mirošov",
+      "PSC" : "33843"
+    },
+    {
+      "OBEC" : "Litoměřice",
+      "ULICE" : "Mládežnická 8",
+      "PSC" : "41201"
+    },
+    {
+      "OBEC" : "Praha 6",
+      "ULICE" : "Boučkova 13\/1818",
+      "PSC" : "162 00"
+    },
+    {
+      "OBEC" : "Plzeň",
+      "ULICE" : "Sokolovská 1",
+      "PSC" : "323 00 "
+    },
+    {
+      "OBEC" : "Karlovy Vary",
+      "ULICE" : "Horova 3",
+      "PSC" : "36021"
+    },
+    {
+      "OBEC" : "Žatec",
+      "ULICE" : "Náměstí Svobody 155",
+      "PSC" : "43801"
+    },
+    {
+      "OBEC" : "Jablunkov",
+      "ULICE" : "provozovna Bocanovice",
+      "PSC" : "739 91"
+    },
+    {
+      "OBEC" : "Bakov Nad Jizerou",
+      "ULICE" : "Palackého 284",
+      "PSC" : "29401"
+    },
+    {
+      "OBEC" : "Žatec",
+      "ULICE" : "Politických vězňů  872",
+      "PSC" : "438 01"
+    },
+    {
+      "OBEC" : "Most",
+      "ULICE" : "Korozluky 68 ",
+      "PSC" : "43401"
+    },
+    {
+      "OBEC" : "Praha 10",
+      "ULICE" : "Počernická 56",
+      "PSC" : "10000"
+    },
+    {
+      "OBEC" : "Odolena Voda",
+      "ULICE" : "Ke stadionu 400",
+      "PSC" : "25070"
+    },
+    {
+      "OBEC" : "Pyšely",
+      "ULICE" : "Husova 43",
+      "PSC" : "25167"
+    },
+    {
+      "OBEC" : "neuvedeno",
+      "ULICE" : "neuvedeno",
+      "PSC" : "11111"
+    },
+    {
+      "OBEC" : "Srby",
+      "ULICE" : "Srby 24",
+      "PSC" : "34601"
+    },
+    {
+      "OBEC" : "Srby",
+      "ULICE" : "Srby 101",
+      "PSC" : "34601"
+    },
+    {
+      "OBEC" : "Kněžmost",
+      "ULICE" : "Násedlnice 22",
+      "PSC" : "294 02"
+    },
+    {
+      "OBEC" : "Sadská",
+      "ULICE" : "Mládežnická 986",
+      "PSC" : "289 12"
+    },
+    {
+      "OBEC" : "Čisovice",
+      "ULICE" : "Čisovice 113",
+      "PSC" : "252 04"
+    },
+    {
+      "OBEC" : "neratovice",
+      "ULICE" : "na výsluní 1306",
+      "PSC" : "27711"
+    },
+    {
+      "OBEC" : "neratovice",
+      "ULICE" : "na výsluní 1306",
+      "PSC" : "27711"
+    },
+    {
+      "OBEC" : "Chraštice",
+      "ULICE" : "Chraštičky 28",
+      "PSC" : "26272"
+    },
+    {
+      "OBEC" : "Vyškov",
+      "ULICE" : "Osvobození 16",
+      "PSC" : "68201"
+    },
+    {
+      "OBEC" : "Dobřany",
+      "ULICE" : "Přeštická 470",
+      "PSC" : "33441"
+    },
+    {
+      "OBEC" : "Paseka 256",
+      "ULICE" : "Paseka",
+      "PSC" : "78397"
+    },
+    {
+      "OBEC" : "praha",
+      "ULICE" : "touzimska",
+      "PSC" : "19700"
+    },
+    {
+      "OBEC" : "hodonín",
+      "ULICE" : "klepnerova 17",
+      "PSC" : "64808"
+    },
+    {
+      "OBEC" : "Nový Knín",
+      "ULICE" : "Nám.J.z Poděbrad",
+      "PSC" : "262 03"
+    },
+    {
+      "OBEC" : "Plzeň",
+      "ULICE" : "Rokycanská 23",
+      "PSC" : "312 00"
+    },
+    {
+      "OBEC" : "Praha 5",
+      "ULICE" : "Wassermannova 1145\/13",
+      "PSC" : "152 00"
+    },
+    {
+      "OBEC" : "příbram",
+      "ULICE" : "březohorská 183",
+      "PSC" : "26101"
+    },
+    {
+      "OBEC" : "Nové Strašecí",
+      "ULICE" : "Křivoklátská 1137",
+      "PSC" : "271 01"
+    },
+    {
+      "OBEC" : "Sedlčany",
+      "ULICE" : "Na Stínadlech 899",
+      "PSC" : "264 01"
+    },
+    {
+      "OBEC" : "Plzeň",
+      "ULICE" : "Částkova 5",
+      "PSC" : "32600"
+    },
+    {
+      "OBEC" : "Rynoltice",
+      "ULICE" : "Rynoltice 1",
+      "PSC" : "46355"
+    },
+    {
+      "OBEC" : "Brno     ",
+      "ULICE" : "Roubalova 13   ",
+      "PSC" : "602 00"
+    },
+    {
+      "OBEC" : "Nové Jirny",
+      "ULICE" : "V Alejích 197",
+      "PSC" : "25090"
+    },
+    {
+      "OBEC" : "Odry",
+      "ULICE" : "Radniční 12",
+      "PSC" : "742 35"
+    },
+    {
+      "OBEC" : "Neratovice - Lobkovice",
+      "ULICE" : "V polích 132",
+      "PSC" : "27711"
+    },
+    {
+      "OBEC" : "Lomnice nad Lužnicí",
+      "ULICE" : "Fr.Sochora 188",
+      "PSC" : "37816"
+    },
+    {
+      "OBEC" : "Brno",
+      "ULICE" : "Neužilova 2",
+      "PSC" : "62500"
+    },
+    {
+      "OBEC" : "Příbram 8",
+      "ULICE" : "Čechovská ",
+      "PSC" : "261 05"
+    },
+    {
+      "OBEC" : "Pelhřimov",
+      "ULICE" : "Skrýšov  52",
+      "PSC" : "39301"
+    },
+    {
+      "OBEC" : "Hořovice",
+      "ULICE" : "Modřínová 1262",
+      "PSC" : "26801"
+    },
+    {
+      "OBEC" : "Pardubice",
+      "ULICE" : "Pernerova 444",
+      "PSC" : "53003"
+    },
+    {
+      "OBEC" : "Šťáhlavy",
+      "ULICE" : "Na Řežábu 418",
+      "PSC" : "33203"
+    },
+    {
+      "OBEC" : "Český Krumlov",
+      "ULICE" : "Pod Vyhlídkou 178",
+      "PSC" : "38101"
+    },
+    {
+      "OBEC" : "bestin",
+      "ULICE" : "mirova89",
+      "PSC" : "26724"
+    },
+    {
+      "OBEC" : "Rožmitál pod Třemšínem",
+      "ULICE" : "Za Jitexem 647",
+      "PSC" : "262 42"
+    },
+    {
+      "OBEC" : "Praha 5",
+      "ULICE" : "pod Ateliery 11",
+      "PSC" : "152 00"
+    },
+    {
+      "OBEC" : "Jablonné v Podještědí",
+      "ULICE" : "Lvová 1",
+      "PSC" : "47125"
+    },
+    {
+      "OBEC" : "Horažďovice",
+      "ULICE" : "U Jatek 127",
+      "PSC" : "34101"
+    },
+    {
+      "OBEC" : "Blansko",
+      "ULICE" : "Pražská 68",
+      "PSC" : "67801"
+    },
+    {
+      "OBEC" : "Velké Bílovice",
+      "ULICE" : "1.Máje 124",
+      "PSC" : "69102"
+    },
+    {
+      "OBEC" : "Praha 6",
+      "ULICE" : "Nevanova",
+      "PSC" : "16300"
+    },
+    {
+      "OBEC" : "Brandýs nad Labem",
+      "ULICE" : "Dřevčice 10",
+      "PSC" : "25001"
+    },
+    {
+      "OBEC" : "Kopřivnice",
+      "ULICE" : "Štefánikova 1155",
+      "PSC" : "742 21"
+    },
+    {
+      "OBEC" : "Dobřichovice",
+      "ULICE" : "5.Května 31",
+      "PSC" : "25229"
+    },
+    {
+      "OBEC" : "Praha  5 - Stodůlky     ",
+      "ULICE" : "Za Mototechnou 1114\/4   ",
+      "PSC" : "155 00"
+    },
+    {
+      "OBEC" : "neuvedeno",
+      "ULICE" : "neuvedeno",
+      "PSC" : "00000"
+    },
+    {
+      "OBEC" : "Říčany",
+      "ULICE" : "Jizerská 1316\/4",
+      "PSC" : "251 01"
+    },
+    {
+      "OBEC" : "Vlastějovice",
+      "ULICE" : "Vlastějovice 58",
+      "PSC" : "28523"
+    },
+    {
+      "OBEC" : "Přeštice",
+      "ULICE" : "Nerudova 1176",
+      "PSC" : "334 01"
+    },
+    {
+      "OBEC" : "Týniště nad Orlicí",
+      "ULICE" : "Čapkova 538",
+      "PSC" : "517 21"
+    },
+    {
+      "OBEC" : "Karlovy Vary",
+      "ULICE" : "Svavhová 26",
+      "PSC" : "36001"
+    },
+    {
+      "OBEC" : "Brno",
+      "ULICE" : "ZD Bystrc, ul. Komínská",
+      "PSC" : "63500"
+    },
+    {
+      "OBEC" : "Mirošov",
+      "ULICE" : "Skořice 67",
+      "PSC" : "33843"
+    },
+    {
+      "OBEC" : "Vamberk",
+      "ULICE" : "Jiráskova 376",
+      "PSC" : "51754"
+    },
+    {
+      "OBEC" : "Lysá nad Labem",
+      "ULICE" : "Stratov 185",
+      "PSC" : "28922"
+    },
+    {
+      "OBEC" : "Hradec Králové- Věkoše",
+      "ULICE" : "Jana Černého 353",
+      "PSC" : "50341"
+    },
+    {
+      "OBEC" : "Malá Skála",
+      "ULICE" : "Vranové 2.díl, č.p.140",
+      "PSC" : "46822"
+    },
+    {
+      "OBEC" : "Příbram 7",
+      "ULICE" : "Politických vězňů 124",
+      "PSC" : "261 01"
+    },
+    {
+      "OBEC" : "Štětí",
+      "ULICE" : "Alšova 619",
+      "PSC" : "41108"
+    },
+    {
+      "OBEC" : "ledce",
+      "ULICE" : "ledce 105",
+      "PSC" : "33011"
+    },
+    {
+      "OBEC" : "Roudnice 57",
+      "ULICE" : "Lhota pod Libčany",
+      "PSC" : "503 27"
+    },
+    {
+      "OBEC" : "Olomouc",
+      "ULICE" : "Polívkova 33",
+      "PSC" : "779 00"
+    },
+    {
+      "OBEC" : "Cerhovice",
+      "ULICE" : "Náměstí Kpt.Kučery 74",
+      "PSC" : "267 61"
+    },
+    {
+      "OBEC" : "Cerhovice",
+      "ULICE" : "Nám.Kpt.Kučery 74",
+      "PSC" : "26761"
+    },
+    {
+      "OBEC" : "Praha 5 - Stodůlky",
+      "ULICE" : "Za Mototechnou 1114\/4    ",
+      "PSC" : "155 00"
+    },
+    {
+      "OBEC" : "Příbram",
+      "ULICE" : "Zdaboř - 488",
+      "PSC" : "26101"
+    },
+    {
+      "OBEC" : "Příbram 2",
+      "ULICE" : "Fantova Louka 580",
+      "PSC" : "261 01"
+    },
+    {
+      "OBEC" : "Příbram",
+      "ULICE" : "Fantova Louka 580",
+      "PSC" : "261 01"
+    },
+    {
+      "OBEC" : "Praha 4 - Kunratice",
+      "ULICE" : "Jana Růžičky 1235",
+      "PSC" : "148 00"
+    },
+    {
+      "OBEC" : "Pardubice 12",
+      "ULICE" : "R. Vojtěchové 697",
+      "PSC" : "530 12"
+    },
+    {
+      "OBEC" : "Chrudim",
+      "ULICE" : "U Stadionu 750",
+      "PSC" : "53703"
+    },
+    {
+      "OBEC" : "Kroměříž",
+      "ULICE" : "Majakovského 569",
+      "PSC" : "65800"
+    },
+    {
+      "OBEC" : "Odry  ",
+      "ULICE" : "Ke Koupališti  370\/15  ",
+      "PSC" : "742 35"
+    },
+    {
+      "OBEC" : "Činěves 143",
+      "ULICE" : "Činěves",
+      "PSC" : "289 01"
+    },
+    {
+      "OBEC" : "CHvojkovice Brob",
+      "ULICE" : "U JZD 111",
+      "PSC" : "351 51"
+    },
+    {
+      "OBEC" : "Hoštice",
+      "ULICE" : "Hoštice ",
+      "PSC" : "354 54"
+    },
+    {
+      "OBEC" : "Příbram",
+      "ULICE" : "U Václava 622",
+      "PSC" : "26101"
+    },
+    {
+      "OBEC" : "nevím",
+      "ULICE" : "nevím",
+      "PSC" : "25125"
+    },
+    {
+      "OBEC" : "Bratislava",
+      "ULICE" : "Zahumenna 50",
+      "PSC" : "851 10"
+    },
+    {
+      "OBEC" : "Kněžmost",
+      "ULICE" : "Suhrovice",
+      "PSC" : "29402"
+    },
+    {
+      "OBEC" : "Kopřivnice",
+      "ULICE" : "Družební 925",
+      "PSC" : "74221"
+    },
+    {
+      "OBEC" : "Brno-Královo Pole",
+      "ULICE" : "Skácelova 21",
+      "PSC" : "61200"
+    },
+    {
+      "OBEC" : "Praha 1",
+      "ULICE" : "V Jámě 1",
+      "PSC" : "110 00 "
+    },
+    {
+      "OBEC" : "Zborovice",
+      "ULICE" : "Hlavní 51",
+      "PSC" : "768 32 "
+    },
+    {
+      "OBEC" : "Kralupy nad Vltavou",
+      "ULICE" : "Hůrka 1044",
+      "PSC" : "278 01"
+    },
+    {
+      "OBEC" : "Všeradice",
+      "ULICE" : "Všeradice 45",
+      "PSC" : "26726"
+    },
+    {
+      "OBEC" : "Cvrčovice",
+      "ULICE" : "tř.Rudé armády 234",
+      "PSC" : "27341"
+    },
+    {
+      "OBEC" : "Blovice",
+      "ULICE" : "Družstevní 755",
+      "PSC" : "33601"
+    },
+    {
+      "OBEC" : "neuvedeno",
+      "ULICE" : "neuvedeno",
+      "PSC" : "5465"
+    },
+    {
+      "OBEC" : "Písek",
+      "ULICE" : "Zborovská 1907",
+      "PSC" : "39701"
+    },
+    {
+      "OBEC" : "Plzeň",
+      "ULICE" : "Na Lukách 28",
+      "PSC" : "312 00"
+    },
+    {
+      "OBEC" : "Klatovy",
+      "ULICE" : "Procházkova 459",
+      "PSC" : "33901"
+    },
+    {
+      "OBEC" : "Hostouň",
+      "ULICE" : "Dobrohostova 110",
+      "PSC" : "345 25"
+    },
+    {
+      "OBEC" : "Česká Třebová",
+      "ULICE" : "Moravská 162",
+      "PSC" : "56002"
+    },
+    {
+      "OBEC" : "Příbram 8",
+      "ULICE" : "Brodská 104",
+      "PSC" : "26101"
+    },
+    {
+      "OBEC" : "Praha 411",
+      "ULICE" : "Na šejdru 268\/28",
+      "PSC" : "142 00"
+    },
+    {
+      "OBEC" : "Plzeň",
+      "ULICE" : "Břidlicová 4",
+      "PSC" : "326 00"
+    },
+    {
+      "OBEC" : "PRAHA 6",
+      "ULICE" : "U voj.nemocnice 1200\/1",
+      "PSC" : "16200"
+    },
+    {
+      "OBEC" : "Prostějov",
+      "ULICE" : "Máchova 24",
+      "PSC" : "79601"
+    },
+    {
+      "OBEC" : "Jicin",
+      "ULICE" : "Horni Lochov 45",
+      "PSC" : "50601"
+    },
+    {
+      "OBEC" : "Kelč",
+      "ULICE" : "Kelč 205",
+      "PSC" : "756 43"
+    },
+    {
+      "OBEC" : "Sedlčany",
+      "ULICE" : "Západní 1173",
+      "PSC" : "26401"
+    },
+    {
+      "OBEC" : "Praha 10",
+      "ULICE" : "Narcisová 2850\/2",
+      "PSC" : "10600"
+    },
+    {
+      "OBEC" : "Mukařov",
+      "ULICE" : "Louňovice, Ke Kameni 318",
+      "PSC" : "251 62"
+    },
+    {
+      "OBEC" : "Protivín",
+      "ULICE" : "Masarykovo nám. 16",
+      "PSC" : "39811"
+    },
+    {
+      "OBEC" : "Praha 5",
+      "ULICE" : "Mukařovského 1985\/8",
+      "PSC" : "155 00 "
+    },
+    {
+      "OBEC" : "Přerov",
+      "ULICE" : "Kabelíkova 18",
+      "PSC" : "750 02"
+    },
+    {
+      "OBEC" : "Hluboká nad Vltavou",
+      "ULICE" : "Sadova 890",
+      "PSC" : "37341"
+    },
+    {
+      "OBEC" : "varnsdorf",
+      "ULICE" : "kostelní 2182",
+      "PSC" : "40747"
+    },
+    {
+      "OBEC" : "Lánov",
+      "ULICE" : "Prostřední Lánov čp.43",
+      "PSC" : "543 41"
+    },
+    {
+      "OBEC" : "Svratouch",
+      "ULICE" : "Svratouch čp. 246",
+      "PSC" : "53942"
+    },
+    {
+      "OBEC" : "Skalice u České Lípy",
+      "ULICE" : "Skalice u České Lípy 573",
+      "PSC" : "47117"
+    },
+    {
+      "OBEC" : "Beroun",
+      "ULICE" : "Lhotka 7",
+      "PSC" : "26601"
+    },
+    {
+      "OBEC" : "Plzeň",
+      "ULICE" : "Koterovská 166",
+      "PSC" : "32600"
+    },
+    {
+      "OBEC" : "Benátky nad Jizerou",
+      "ULICE" : "Pod Remízkem 281",
+      "PSC" : "29471"
+    },
+    {
+      "OBEC" : "Slavoňov-Blažkov 12",
+      "ULICE" : "Slavoňov-Blažkov 12",
+      "PSC" : "54901"
+    },
+    {
+      "OBEC" : "Železná Ruda",
+      "ULICE" : "Špičák 56",
+      "PSC" : "34004"
+    },
+    {
+      "OBEC" : "Rosice",
+      "ULICE" : "Mrštíkova 576",
+      "PSC" : "66501"
+    },
+    {
+      "OBEC" : "Teplice",
+      "ULICE" : "Libušina 23527",
+      "PSC" : "41501"
+    },
+    {
+      "OBEC" : "Praha 6 - Suchdol",
+      "ULICE" : "Sídlištní 1167",
+      "PSC" : "16500"
+    },
+    {
+      "OBEC" : "Ústí nad Labem",
+      "ULICE" : "Klíšská 940",
+      "PSC" : "401 17"
+    },
+    {
+      "OBEC" : "Brno",
+      "ULICE" : "Křenová 299\/26",
+      "PSC" : "602 00"
+    },
+    {
+      "OBEC" : "Strážný",
+      "ULICE" : "Hliniště 16",
+      "PSC" : "384 43"
+    },
+    {
+      "OBEC" : "Lysa nad Labem",
+      "ULICE" : "Veleslavínova 75",
+      "PSC" : "289 22"
+    },
+    {
+      "OBEC" : "Planá",
+      "ULICE" : "Nádražní 502",
+      "PSC" : "34815"
+    },
+    {
+      "OBEC" : "Uherský Brod",
+      "ULICE" : "Prakšická 281",
+      "PSC" : "68801"
+    },
+    {
+      "OBEC" : "Rychvald",
+      "ULICE" : "Rychvald 140",
+      "PSC" : "73532"
+    },
+    {
+      "OBEC" : "Písek",
+      "ULICE" : "Na Pakšovce 2270",
+      "PSC" : "397 01"
+    },
+    {
+      "OBEC" : "Zlín",
+      "ULICE" : "Želechovice 292",
+      "PSC" : "76311"
+    },
+    {
+      "OBEC" : "Pardubice-Staré Hradiště",
+      "ULICE" : "Hradecká 69",
+      "PSC" : "533 52"
+    },
+    {
+      "OBEC" : "Zruč nad Sázavou",
+      "ULICE" : "nám. MUDr. J. Svobody 60",
+      "PSC" : "28522"
+    },
+    {
+      "OBEC" : "Rožmítál pod Třemšínem ",
+      "ULICE" : "Cvokařská 123",
+      "PSC" : "262 42"
+    },
+    {
+      "OBEC" : "Praha 6",
+      "ULICE" : "Nad Kajetankou 18",
+      "PSC" : "16900"
+    },
+    {
+      "OBEC" : "Lučice",
+      "ULICE" : "Lučice 205",
+      "PSC" : "582 35"
+    },
+    {
+      "OBEC" : "Pelhřimov",
+      "ULICE" : "Osvobození 1877",
+      "PSC" : "39301"
+    },
+    {
+      "OBEC" : "Kladno",
+      "ULICE" : "Jar. Kociána 1095",
+      "PSC" : "27201"
+    },
+    {
+      "OBEC" : "Moravany",
+      "ULICE" : "náměstí Hrdinů 47",
+      "PSC" : "53372"
+    },
+    {
+      "OBEC" : "Český Brod",
+      "ULICE" : "Bylany 111",
+      "PSC" : "28201"
+    },
+    {
+      "OBEC" : "Lovosice",
+      "ULICE" : "U Nadjezdu 873\/14",
+      "PSC" : "41002"
+    },
+    {
+      "OBEC" : "Praha 4",
+      "ULICE" : "Sládkovičova 1242\/24",
+      "PSC" : "142 00"
+    },
+    {
+      "OBEC" : "Příbram",
+      "ULICE" : "Tř. Osvobození 371",
+      "PSC" : "26101"
+    },
+    {
+      "OBEC" : "Pribram 3",
+      "ULICE" : "Smetanova 278",
+      "PSC" : "26101"
+    },
+    {
+      "OBEC" : "třebíč",
+      "ULICE" : "čajkovského 549\/12",
+      "PSC" : "67401"
+    },
+    {
+      "OBEC" : "Jirny",
+      "ULICE" : "Zámecká 2",
+      "PSC" : "250 90"
+    },
+    {
+      "OBEC" : "Písek",
+      "ULICE" : "ŽIŽKOVA TŘÍDA 343\/59",
+      "PSC" : "39701"
+    },
+    {
+      "OBEC" : "ceske budejovice",
+      "ULICE" : "m.chlajna 13",
+      "PSC" : "37005"
+    },
+    {
+      "OBEC" : "Ostrava",
+      "ULICE" : "Domovská 29",
+      "PSC" : "72000"
+    },
+    {
+      "OBEC" : "Příbram",
+      "ULICE" : "Brodská 103",
+      "PSC" : "26101"
+    }
+  ]}

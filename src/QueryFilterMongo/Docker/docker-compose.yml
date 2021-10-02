@@ -8,3 +8,14 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: lok
+      
+  pps-mongo-express:
+    image: mongo-express
+    container_name: "mongo_express-query-filter"
+    restart: on-failure
+    ports:
+      - 27118:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: lok
+      ME_CONFIG_MONGODB_SERVER: pps-mongo      
