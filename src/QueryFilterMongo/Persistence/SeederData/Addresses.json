@@ -11,7 +11,7 @@
       "PSC" : "289 16"
     },
     {
-      "OBEC" : "Dvůr Králové nad Labem     ",
+      "OBEC" : null,
       "ULICE" : "Legionářská 2832      ",
       "PSC" : "544 01"
     },
@@ -36,7 +36,7 @@
       "PSC" : "155 00"
     },
     {
-      "OBEC" : "Praha  5 - Stodůlky   ",
+      "OBEC" : null,
       "ULICE" : "Za Mototechnou 1114\/4      ",
       "PSC" : "155 00"
     },

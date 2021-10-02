@@ -16,6 +16,9 @@
       <Reference Include="Microsoft.Extensions.Options, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
         <HintPath>C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App\5.0.10\Microsoft.Extensions.Options.dll</HintPath>
       </Reference>
+      <Reference Include="Microsoft.Extensions.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+        <HintPath>C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App\5.0.10\Microsoft.Extensions.Primitives.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
     <ItemGroup>
