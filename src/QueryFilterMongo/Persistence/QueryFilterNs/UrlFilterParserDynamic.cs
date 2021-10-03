@@ -8,29 +8,6 @@ using MongoDB.Driver;
 
 namespace QueryFilterMongo.Persistence.QueryFilterNs
 {
-    internal static class StringExtensions
-    {
-        internal static bool IsTimePeriod(this string value)
-        {
-            return Enum.TryParse(value, true, out TimePeriod period);
-        }
-
-        internal static TimePeriod AsTimePeriod(this string value)
-        {
-            if (Enum.TryParse(value, true, out TimePeriod period))
-            {
-                return period;
-            }
-
-            throw new ArgumentException(nameof(value) + " is not time period string: " + value);
-        }
-    }
-    
-    internal enum TimePeriod
-    {
-        Today, Yesterday, LastSevenDays, LastThirtyDays, PrevMonth, PrevWeek
-    }
-    
     public class UrlFilterParserDynamic<TEntity>
     {
         private const string Limit = "limit";
