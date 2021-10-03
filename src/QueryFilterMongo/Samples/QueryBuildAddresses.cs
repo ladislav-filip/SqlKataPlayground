@@ -13,8 +13,11 @@ namespace QueryFilterMongo.Samples
 {
     public class QueryBuildAddresses : QueryBuildBase
     {
-        public QueryBuildAddresses(MongoContext context) : base(context)
+        private readonly IMongoUrlFilterParserFactory _mongoUrlFilterParserFactory;
+
+        public QueryBuildAddresses(MongoContext context, IMongoUrlFilterParserFactory mongoUrlFilterParserFactory) : base(context)
         {
+            _mongoUrlFilterParserFactory = mongoUrlFilterParserFactory;
         }
         
         public async Task GetByQuerySamplesFilter()
@@ -64,7 +67,7 @@ namespace QueryFilterMongo.Samples
                 { nameof(Address.DateCreated), typeof(DateTime)}
             };
             
-            var queryParams = new UrlFilterParserDynamic<Address>(allowFields).Parse(filter);
+            var queryParams = _mongoUrlFilterParserFactory.Parse<Address>(allowFields, filter);
             var totalCount = await _context.Addresses.CountDocumentsAsync(queryParams.Filter);
             var dataQuery = await _context.Addresses.FindAsync(queryParams.Filter, queryParams.FindOptions);
             var data = await dataQuery.ToListAsync();

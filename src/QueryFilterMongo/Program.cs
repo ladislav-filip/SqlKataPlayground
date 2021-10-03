@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using QueryFilterMongo.Persistence;
+using QueryFilterMongo.Persistence.QueryFilterNs;
 using QueryFilterMongo.Samples;
 
 namespace QueryFilterMongo
@@ -12,7 +13,8 @@ namespace QueryFilterMongo
         {
             var context = new MongoContext();
             var seeder = new Seeder(context);
-            var builder = new QueryBuildAddresses(context);
+            var mongoFilterFactory = new MongoUrlFilterParserFactory();
+            var builder = new QueryBuildAddresses(context, mongoFilterFactory);
 
             //seeder.Seed();
             context.ListCollections();
