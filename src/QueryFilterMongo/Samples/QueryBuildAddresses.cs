@@ -21,7 +21,7 @@ namespace QueryFilterMongo.Samples
         {
             // https://helpdesk.fullsys.cz/dokuwiki/skoda_vyvoj/ppsnet/programovani_postupy_a_rady/predavani_datoveho_filtru_v_url_query_stringu?s[]=url&s[]=filtr#operatory
             
-            // await GetByQueryFilter(CreateFilter("?limit=3&city=cont:os&sort=city"));                 // LIKE
+            await GetByQueryFilter(CreateFilter("?limit=3&city=cont:os&sort=city"));                 // LIKE
             // await GetByQueryFilter(CreateFilter("?limit=3&city=cont:os&sort=city&number=gt:50"));    // LIKE and GREATER
             // await GetByQueryFilter(CreateFilter("?limit=3&offset=5&city=cont:os&sort=city"));        // OFFSET
             // await GetByQueryFilter(CreateFilter("?limit=3&city=cont:os&sort=city&number=neq:100"));  // LIKE and NOT EQUAL
