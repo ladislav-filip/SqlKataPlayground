@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Primitives;
 using MongoDB.Bson;
@@ -15,11 +16,10 @@ namespace QueryFilterMongo.Persistence.QueryFilterNs
         private const string Sort = "sort";
         private const string Desc = "desc";
         
+        private const BindingFlags BindingProps = BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance;
+        
         private readonly Regex _filterParamRegex = new("^((?<cond>eq|neq|cont|ends|sts|gt|gte|lt|lte|in|nin|ncont|nends|nsts|eqci|neqci)\\:)?(?<value>.+)",
             RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline);
-        
-        // private readonly List<string> _timePeriods = new(new[] { "today", "yesterday", "lastSevenDays", "lastThirtyDays", "prevMonth", "prevWeek" });
-        
 
         private readonly List<string> _ignoredParams = new(new[] { Limit, Offset, Sort });
 
@@ -219,7 +219,7 @@ namespace QueryFilterMongo.Persistence.QueryFilterNs
                 var property = properties[i];
                 var last = i == (properties.Length - 1);
 
-                var propInfo = type.GetProperty(property, System.Reflection.BindingFlags.IgnoreCase | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+                var propInfo = type.GetProperty(property, BindingProps);
 
                 if (propInfo != null)
                 {
@@ -232,7 +232,7 @@ namespace QueryFilterMongo.Persistence.QueryFilterNs
                 }
                 else
                 {
-                    var fieldInfo = type.GetField(property, System.Reflection.BindingFlags.IgnoreCase | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+                    var fieldInfo = type.GetField(property, BindingProps);
 
                     if (fieldInfo == null)
                     {
@@ -268,7 +268,7 @@ namespace QueryFilterMongo.Persistence.QueryFilterNs
                 var property = properties[i];
                 var last = i == (properties.Length - 1);
 
-                var propInfo = type.GetProperty(property, System.Reflection.BindingFlags.IgnoreCase | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+                var propInfo = type.GetProperty(property, BindingProps);
 
                 if (propInfo != null)
                 {
@@ -283,7 +283,7 @@ namespace QueryFilterMongo.Persistence.QueryFilterNs
                 }
                 else
                 {
-                    var fieldInfo = type.GetField(property, System.Reflection.BindingFlags.IgnoreCase | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+                    var fieldInfo = type.GetField(property, BindingProps);
 
                     if (fieldInfo == null)
                     {
