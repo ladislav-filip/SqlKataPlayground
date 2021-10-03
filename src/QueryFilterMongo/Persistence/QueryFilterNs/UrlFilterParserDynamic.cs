@@ -8,6 +8,29 @@ using MongoDB.Driver;
 
 namespace QueryFilterMongo.Persistence.QueryFilterNs
 {
+    internal static class StringExtensions
+    {
+        internal static bool IsTimePeriod(this string value)
+        {
+            return Enum.TryParse(value, true, out TimePeriod period);
+        }
+
+        internal static TimePeriod AsTimePeriod(this string value)
+        {
+            if (Enum.TryParse(value, true, out TimePeriod period))
+            {
+                return period;
+            }
+
+            throw new ArgumentException(nameof(value) + " is not time period string: " + value);
+        }
+    }
+    
+    internal enum TimePeriod
+    {
+        Today, Yesterday, LastSevenDays, LastThirtyDays, PrevMonth, PrevWeek
+    }
+    
     public class UrlFilterParserDynamic<TEntity>
     {
         private const string Limit = "limit";
@@ -18,7 +41,8 @@ namespace QueryFilterMongo.Persistence.QueryFilterNs
         private readonly Regex _filterParamRegex = new("^((?<cond>eq|neq|cont|ends|sts|gt|gte|lt|lte|in|nin|ncont|nends|nsts|eqci|neqci)\\:)?(?<value>.+)",
             RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline);
         
-        private readonly List<string> _timePeriods = new List<string>(new string[] { "today", "yesterday", "lastSevenDays", "lastThirtyDays", "prevMonth", "prevWeek" });
+        // private readonly List<string> _timePeriods = new(new[] { "today", "yesterday", "lastSevenDays", "lastThirtyDays", "prevMonth", "prevWeek" });
+        
 
         private readonly List<string> _ignoredParams = new(new[] { Limit, Offset, Sort });
 
@@ -346,42 +370,45 @@ namespace QueryFilterMongo.Persistence.QueryFilterNs
             {
                 foreach (var value in values)
                 {
-                    if (oper.Equals(Operator.Eq) && (fieldType == typeof(DateTime) || fieldType == typeof(DateTime?)) &&
-                        value is string && _timePeriods.Contains(value as string, StringComparer.OrdinalIgnoreCase))
+                    var isDatatimeInterval = (fieldType == typeof(DateTime) || fieldType == typeof(DateTime?))
+                                             && value is string sValue
+                                             && sValue.IsTimePeriod();
+
+                    if (oper.Equals(Operator.Eq) && isDatatimeInterval)
                     {
                         // Casove obdobi
                         var dnesniPulnoc = DateTime.Now.Date;
                         DateTime? casOd = null;
                         DateTime? casDo = null;
-                        switch ((value as string).ToLower())
+                        switch ((value as string).AsTimePeriod())
                         {
                             // today, yesterday, lastSevenDays, lastThirtyDays, prevMonth a prevWeek
-                            case "today":
+                            case TimePeriod.Today:
                                 casOd = dnesniPulnoc;
                                 casDo = dnesniPulnoc.AddDays(1);
                                 break;
-                            case "yesterday":
+                            case TimePeriod.Yesterday:
                                 var vcerejsiPulnoc = DateTime.Now.Date.Subtract(TimeSpan.FromDays(1));
                                 casOd = vcerejsiPulnoc;
                                 casDo = vcerejsiPulnoc.AddDays(1);
                                 break;
-                            case "lastsevendays":
+                            case TimePeriod.LastSevenDays:
                                 var predSestiDny = dnesniPulnoc.Subtract(TimeSpan.FromDays(6));
                                 casOd = predSestiDny;
                                 casDo = dnesniPulnoc.AddDays(1);
                                 break;
-                            case "lastthirtydays":
+                            case TimePeriod.LastThirtyDays:
                                 var pred29Dny = dnesniPulnoc.Subtract(TimeSpan.FromDays(29));
                                 casOd = pred29Dny;
                                 casDo = dnesniPulnoc.AddDays(1);
                                 break;
-                            case "prevmonth":
+                            case TimePeriod.PrevMonth:
                                 var zacatekMinulehoMesice =
                                     new DateTime(dnesniPulnoc.Year, dnesniPulnoc.Month, 1).AddMonths(-1);
                                 casOd = zacatekMinulehoMesice;
                                 casDo = zacatekMinulehoMesice.AddMonths(1);
                                 break;
-                            case "prevweek":
+                            case TimePeriod.PrevWeek:
                                 var zacatekMinulehoTydne = dnesniPulnoc.AddDays(-(int)dnesniPulnoc.DayOfWeek - 6);
                                 casOd = zacatekMinulehoTydne;
                                 casDo = zacatekMinulehoTydne.AddDays(7);
