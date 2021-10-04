@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MongoDB.Driver;
+using Fullsys.Pps.Utils.Infrastructure.Mongo.QueryFilter;
 using QueryFilterMongo.Persistence;
-using QueryFilterMongo.Persistence.QueryFilterNs;
 using QueryFilterMongo.Samples;
 
 namespace QueryFilterMongo

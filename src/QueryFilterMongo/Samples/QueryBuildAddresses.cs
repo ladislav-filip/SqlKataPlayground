@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using Fullsys.Pps.Utils.Infrastructure.Mongo.QueryFilter;
 using Microsoft.Extensions.Primitives;
 using MongoDB.Driver;
 using QueryFilterMongo.Domains;
 using QueryFilterMongo.Persistence;
-using QueryFilterMongo.Persistence.QueryFilterNs;
 
 namespace QueryFilterMongo.Samples
 {
